@@ -9,9 +9,13 @@ export default function HomeScreen() {
     
     return (
         <View style={styles.container}>
+            <View style={styles.topBorder}>
             <View style={styles.topLeft}/>
-            <View style={styles.topDiagonal}/>
+            <View style={styles.topDiagonal}>
+                <View style={styles.diagonal}/>
+            </View>
             <View style={styles.topRight}/>
+            </View>
             <View style={styles.blueLightBorder} />
             <View style={[styles.blueLight, {backgroundColor: blueLight}]} />
             <View style={styles.blueLightShine} />
@@ -89,26 +93,31 @@ const styles = StyleSheet.create({
         width: 30,
         height: 30,
     },
+    topBorder: {
+        flexDirection: "row",
+        position: "absolute",
+        top: 110,
+    },
     topLeft: {
-        position: "absolute", 
-        top: 160,
-        left: 0,
-        borderWidth: 2,
+
+        borderBottomWidth: 4,
+        height: 50,
         width: 220,
     },
     topDiagonal: {
-        position: "absolute", 
-        top: 130,
-        left: 210,
+        justifyContent: "center",
+        height: 50,
+        width: 80,
+    },
+    diagonal: {
         borderWidth: 2,
-        width: 100,
-        transform: [{rotate: '-38deg'}]
+        transform: [{rotate: "-29deg"}],
+        width: 95,
+        marginLeft: -7,
     },
     topRight: {
-        position: "absolute", 
-        top: 100,
-        right: 0,
-        borderWidth: 2,
+        borderTopWidth: 4,
+        height: 50,
         width: 130,
 
     }
