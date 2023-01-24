@@ -2,7 +2,7 @@ import { View, StyleSheet, Text, Pressable, Button } from 'react-native'
 import { useState } from 'react';
 
 export default function HomeScreen() {
-    const [blueLight, setBlueLight] = useState('skyblue')
+    const [blueLight, setBlueLight] = useState('#90c9df')
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
@@ -28,8 +28,8 @@ export default function HomeScreen() {
 
             <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Pressable style={{width: 100, backgroundColor: 'green', height: 100}} 
-                onPressIn={() => {setBlueLight('#0085fa'), setSmallRed('#ff2d1a'), setSmallYellow('#ffff00'), setSmallGreen('lime')}} 
-                onPressOut={() => {setBlueLight('skyblue'), setSmallRed('#db0000'), setSmallYellow('#f0cc00'), setSmallGreen('limegreen')}}>
+                onPressIn={() => {setBlueLight('#05e2ff'), setSmallRed('#ff2d1a'), setSmallYellow('#ffff00'), setSmallGreen('lime')}} 
+                onPressOut={() => {setBlueLight('#90c9df'), setSmallRed('#db0000'), setSmallYellow('#f0cc00'), setSmallGreen('limegreen')}}>
             </Pressable>
             </View>
         </View>
@@ -99,8 +99,8 @@ const styles = StyleSheet.create({
         top: 110,
     },
     topLeft: {
-
         borderBottomWidth: 4,
+        borderBottomRightRadius: 2,
         height: 50,
         width: 220,
     },
@@ -117,6 +117,7 @@ const styles = StyleSheet.create({
     },
     topRight: {
         borderTopWidth: 4,
+        borderTopLeftRadius: 2,
         height: 50,
         width: 130,
 
