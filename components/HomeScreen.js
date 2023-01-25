@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, Button } from 'react-native'
+import { View, StyleSheet, Text, Pressable, Button, Image } from 'react-native'
 import { useState } from 'react';
 
 export default function HomeScreen() {
@@ -23,15 +23,24 @@ export default function HomeScreen() {
                 <View style={[styles.smallLight, {backgroundColor: smallRed}]}/>
                 <View style={[styles.smallLight, {backgroundColor: smallYellow}]} />
                 <View style={[styles.smallLight, {backgroundColor: smallGreen}]} />
-
+            </View>
+            <View style={styles.screenContainer}>
+                <View style={styles.screenCorner} />
+                <View style={styles.screenCornerBorder} />
+                <View style={styles.screen}>
+                    <Image style={styles.sprite} source={{ uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png"}}/>
+                </View>
             </View>
 
-            <View style={{justifyContent: 'center', alignItems: 'center'}}>
+
+
+
+            {/* <View style={{justifyContent: 'center', alignItems: 'center'}}>
             <Pressable style={{width: 100, backgroundColor: 'green', height: 100}} 
                 onPressIn={() => {setBlueLight('#05e2ff'), setSmallRed('#ff2d1a'), setSmallYellow('#ffff00'), setSmallGreen('lime')}} 
                 onPressOut={() => {setBlueLight('#90c9df'), setSmallRed('#db0000'), setSmallYellow('#f0cc00'), setSmallGreen('limegreen')}}>
             </Pressable>
-            </View>
+            </View> */}
         </View>
     );
 }
@@ -120,6 +129,50 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 2,
         height: 50,
         width: 130,
+    },
+    screenContainer: {
+        width: 320,
+        height: 320,
+        backgroundColor: "#efefef",
+        borderWidth: 2,
+        borderBottomLeftRadius: 4,
+        marginTop: -180,
+    },
+    screenCorner: {
+        position: "absolute",
+        bottom: -27,
+        borderLeftWidth: 25,
+        borderLeftColor: "transparent",
+        borderRightWidth: 293,
+        borderTopWidth: 25,
+    },
+    screenCornerBorder: {
+        position: "absolute",
+        bottom: -24,
+        borderLeftWidth: 25,
+        borderLeftColor: "transparent",
+        borderRightWidth: 291,
+        borderRightColor: "#efefef",
+        borderTopWidth: 25,
+        borderTopColor: "#efefef",
+    },
+    screen: {
+        position: "absolute",
+        top: 30,
+        left: 30,
+        width: 260, 
+        height: 260,
+        backgroundColor: "#333",
+        borderWidth: 2,
+        borderRadius: 4,
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center"
+    },
+    sprite: {
+        height: 200,
+        width: 200,
+        resizeMode: 'cover', 
+    },
 
-    }
-})
+});
