@@ -6,6 +6,28 @@ export default function HomeScreen() {
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
+    const [lightOn, setLightOn] = useState(false)
+    const pokeImages = [
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/74.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"
+    ]
+    let [counter, setCounter] = useState(0)
+
+    // const cycle = () =>{
+    //     console.log(counter)
+    //     counter === 3 ? (setCounter(0)): (setCounter(counter+=1))
+    // }
+
+    // setInterval(cycle, 5000)
+
+    // const lights = () => {
+    //     lightOn === false ? (setBlueLight('#05e2ff')) : (setBlueLight('#90c9df'))
+    //     setLightOn(!lightOn)
+    // }
+
+    // setInterval(lights, 1000)
 
     return (
         <View style={styles.container}>
@@ -31,7 +53,7 @@ export default function HomeScreen() {
                 <View style={styles.screenCorner} />
                 <View style={styles.screenCornerBorder} />
                 <View style={styles.screen}>
-                    <Image style={styles.sprite} source={{ uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/145.png" }} />
+                    <Image style={styles.sprite} source={{ uri: pokeImages[counter] }} />
                 </View>
                 <View style={styles.leftScreenLight}/>
                 <View style={styles.rightScreenLight}/>
