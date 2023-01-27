@@ -30,33 +30,37 @@ export default function HomeScreen() {
     // setInterval(lights, 1000)
 
     return (
-        <View style={styles.container}>
-            <View style={styles.topBorder}>
-                <View style={styles.topLeft} />
-                <View style={styles.topDiagonal}>
-                    <View style={styles.diagonal} />
+        <View style={{ flex: 1, backgroundColor: "crimson", }}>
+
+            <View style={styles.container}>
+                <View style={styles.topBorder}>
+                    <View style={styles.topLeft} />
+                    <View style={styles.topDiagonal}>
+                        <View style={styles.diagonal} />
+                    </View>
+                    <View style={styles.topRight} />
                 </View>
-                <View style={styles.topRight} />
+                <View style={styles.blueLightBorder} />
+                <View style={[styles.blueLight, { backgroundColor: blueLight }]} />
+                <View style={styles.blueLightShine} />
+                <View style={styles.smallLightContainer}>
+                    <View style={[styles.smallLight, { backgroundColor: smallRed }]} />
+                    <View style={[styles.smallLight, { backgroundColor: smallYellow }]} />
+                    <View style={[styles.smallLight, { backgroundColor: smallGreen }]} />
+                </View>
             </View>
-            <View style={styles.blueLightBorder} />
-            <View style={[styles.blueLight, { backgroundColor: blueLight }]} />
-            <View style={styles.blueLightShine} />
-            <View style={styles.smallLightContainer}>
-                <View style={[styles.smallLight, { backgroundColor: smallRed }]} />
-                <View style={[styles.smallLight, { backgroundColor: smallYellow }]} />
-                <View style={[styles.smallLight, { backgroundColor: smallGreen }]} />
-            </View>
+
             <View style={styles.screenContainer}>
-                <View style={styles.topLines}/>
-                <View style={styles.botLines}/>
+                <View style={styles.topLines} />
+                <View style={styles.botLines} />
                 <View style={styles.screenLight} />
                 <View style={styles.screenCorner} />
                 <View style={styles.screenCornerBorder} />
                 <View style={styles.screen}>
                     <Image style={styles.sprite} source={{ uri: pokeImages[counter] }} />
                 </View>
-                <View style={styles.leftScreenLight}/>
-                <View style={styles.rightScreenLight}/>
+                <View style={styles.leftScreenLight} />
+                <View style={styles.rightScreenLight} />
             </View>
 
 
@@ -81,6 +85,7 @@ export default function HomeScreen() {
                 onPressOut={() => {setBlueLight('#90c9df'), setSmallRed('#db0000'), setSmallYellow('#f0cc00'), setSmallGreen('limegreen')}}>
             </Pressable>
             </View> */}
+
         </View>
     );
 }
@@ -92,13 +97,9 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: "crimson",
     },
     bottomDex: {
-        position: 'absolute',
-        top: 550,
-        width: '100%',
-        height: '35%'
+        flex: 2
     },
     blackButton: {
         position: 'absolute',
@@ -112,8 +113,8 @@ const styles = StyleSheet.create({
     },
     blueLight: {
         position: 'absolute',
-        top: 60,
-        left: 30,
+        top: '35%',
+        left: '8%',
         borderRadius: 50,
         borderWidth: 1,
         width: 70,
@@ -123,8 +124,8 @@ const styles = StyleSheet.create({
     },
     blueLightBorder: {
         position: 'absolute',
-        top: 50,
-        left: 20,
+        top: '25%',
+        left: '6%',
         borderRadius: 50,
         borderWidth: 1,
         backgroundColor: 'white',
@@ -258,13 +259,15 @@ const styles = StyleSheet.create({
         width: 130,
     },
     screenContainer: {
-        width: 320,
-        height: 320,
+        flex: 2,
         backgroundColor: "#efefef",
         borderWidth: 2,
         borderBottomLeftRadius: 4,
-        position: 'absolute',
-        top: 200,
+        width: '80%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        left: '10%'
+
     },
     screenCorner: {
         position: "absolute",

@@ -1,4 +1,4 @@
-import {View, StyleSheet, Text, TextInput, Button, Image} from 'react-native'
+import {View, StyleSheet, Text, TextInput, Button, Image, SafeAreaView} from 'react-native'
 import { useState, useEffect } from 'react'
 import { requestPokemon } from '../Requests'
 import { requestFlavorText } from '../Requests'
@@ -8,26 +8,34 @@ export default function InfoScreen() {
     const [search, setSearch] = useState("")
     const [sprite, setSprite] = useState("")
     const [dexEntry, setDexEntry] = useState("")
+    const [pokeName, setPokeName] = useState("")
 
 
 const handleSubmit = () => {
     requestPokemon(search).then((response) => (response && 
-        setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default)))
+        setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default), setPokeName(response.data.forms[0].name)))
 }
 
 useEffect(() => {
     requestFlavorText(flavorText).then((response)=> (response && setDexEntry(response.data.flavor_text_entries[0].flavor_text)))
 }, [flavorText])
     
-console.log(dexEntry)
+console.log(`name: ${pokeName}`)
     return(
-        <View style={styles.container}>
-            <Text>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ")}</Text>
+        <SafeAreaView style={styles.container}>
+
+            <View style={{flexShrink: 2, alignItems: 'center'}}>
+                <Text>{pokeName}</Text>
+                <View style={{backgroundColor: 'white', borderRadius: 150, width: 280, height: 280, alignItems: 'center', justifyContent: 'center'}}>
             <Image 
             style={styles.sprite}
-            resizeMode="cover"
+            resizeMode= 'cover'
             source={{uri: sprite}}/>
+            </View>
+            <Text>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ")}</Text>
+            </View>
             
+            <View style={{flex: 2}}>
             <TextInput 
             autoCorrect={false}
             autoCapitalize='none'
@@ -38,8 +46,8 @@ console.log(dexEntry)
             
 
             <Button title='Click' onPress={() => handleSubmit()}/>
-            
-        </View>
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -48,6 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'red'
     },
     search: {
         height: 25,
@@ -55,11 +64,11 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 3,
         paddingLeft: 5,
+        backgroundColor: 'white'
     },
     sprite: {
-        height: 200,
-        width: 200,
-        borderWidth: 1,
+        height: 250,
+        width: 250,
     },
     
 })
