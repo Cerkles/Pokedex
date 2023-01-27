@@ -28,9 +28,14 @@ export default function Pokedex() {
 
             <View style={styles.middleDex}>
                 <View style={styles.screenContainer}>
+                    <View style={styles.rightScreenLight}/>
+                    <View style={styles.leftScreenLight}/>
                     <View style={styles.screen}>     
                         <Image style={styles.sprite} source={{uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"}}/>
                     </View>
+                    <View style={styles.topLines}/>
+                    <View style={styles.botLines}/>
+                    <View style={styles.screenLight} />
                 </View>
             </View>
 
@@ -148,13 +153,54 @@ const styles = StyleSheet.create({
         width: '100%',
         resizeMode: 'contain',
     },
-
-
-
-
-
-
-
+    rightScreenLight: {
+        position: 'absolute',
+        top: '6%',
+        right: '35%',
+        backgroundColor: 'red',
+        width: Scaling.windowHeight * .018,
+        height: Scaling.windowHeight * .018,
+        borderRadius: 50,
+        borderWidth: 1
+    },
+    leftScreenLight: {
+        position: 'absolute',
+        top: '6%',
+        left: '35%',
+        backgroundColor: 'red',
+        width: Scaling.windowHeight * .018,
+        height: Scaling.windowHeight * .018,
+        borderRadius: 50,
+        borderWidth: 1
+    },
+    topLines: {
+        position: 'absolute',
+        top: '87%',
+        right: '11%',
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        width: '10%',
+        height: '4%',
+    },
+    botLines: {
+        position: 'absolute',
+        top: '94%',
+        right: '11%',
+        borderTopWidth: 2,
+        borderBottomWidth: 2,
+        width: '10%',
+        height: '4%',
+    },
+    screenLight: {
+        position: 'absolute',
+        top: '88%',
+        left: '15%',
+        width: Scaling.windowHeight * .03,
+        height: Scaling.windowHeight * .03,
+        borderRadius: 50,
+        backgroundColor: 'red',
+        borderWidth: 1,
+    },
 
 
     /////////////////////////////////////////////////////////////
