@@ -26,7 +26,7 @@ console.log(`name: ${pokeName}`)
 
             <View style={{flexShrink: 2, alignItems: 'center'}}>
                 <Text>{pokeName}</Text>
-                <View style={{backgroundColor: 'white', borderRadius: 150, width: 280, height: 280, alignItems: 'center', justifyContent: 'center'}}>
+                <View style={{backgroundColor: 'white', borderRadius: 150, width: 280, height: 280, alignItems: 'center', justifyContent: 'center', borderWidth: 1}}>
             <Image 
             style={styles.sprite}
             resizeMode= 'cover'
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: 'red'
+        backgroundColor: 'crimson'
     },
     search: {
         height: 25,

@@ -99,7 +99,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     bottomDex: {
-        flex: 2
+        flexShrink: 1,
+        // position: 'absolute',
+        // top: 550,
+        width: '100%',
+        height: '35%'
     },
     blackButton: {
         position: 'absolute',
