@@ -95,8 +95,9 @@ const styles = StyleSheet.create({
         backgroundColor: "crimson",
     },
     bottomDex: {
-        position: 'absolute',
-        top: 550,
+        flexShrink: 1,
+        // position: 'absolute',
+        // top: 550,
         width: '100%',
         height: '35%'
     },

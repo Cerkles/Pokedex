@@ -59,7 +59,6 @@ const styles = StyleSheet.create({
     sprite: {
         height: 200,
         width: 200,
-        borderWidth: 1,
     },
     
 })
