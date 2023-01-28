@@ -1,13 +1,37 @@
 import { View, StyleSheet, Text, Pressable, Button, Image } from 'react-native'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Scaling from '../Scaling';
+import { request151 } from '../Requests';
 
 export default function Pokedex() {
     const [blueLight, setBlueLight] = useState('#90c9df')
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
+    const [pokeContainer, setPokeContainer] = useState([])
+    const pokeImages = [
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/74.png",
+        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"
+    ]
+    let [counter, setCounter] = useState(1)
 
+
+    useEffect(() => {
+        request151(counter).then((response) => response && setPokeContainer(response.data.sprites.front_default))
+    }, [counter])
+
+    const handleUpClick = () => {
+        counter === 151 ? (setCounter(1)) : (setCounter(counter += 1))
+    }
+
+    const handleDownClick = () => {
+        counter === 1 ? (setCounter(151)) : (setCounter(counter -= 1))
+    }
+
+
+    console.log(pokeContainer)
     return (
         <View style={styles.container}>
 
@@ -31,7 +55,7 @@ export default function Pokedex() {
                     <View style={styles.rightScreenLight}/>
                     <View style={styles.leftScreenLight}/>
                     <View style={styles.screen}>     
-                        <Image style={styles.sprite} source={{uri: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"}}/>
+                        <Image style={styles.sprite} source={{uri: pokeContainer}}/>
                     </View>
                     <View style={styles.topLines}/>
                     <View style={styles.botLines}/>
@@ -41,8 +65,8 @@ export default function Pokedex() {
 
             <View style={styles.botDex}>
                 <View style={styles.directionalPad}>
-                    <View style={styles.upDirection} />
-                    <View style={styles.downDirection} />
+                    <Pressable onPress={() => handleUpClick()} style={styles.upDirection} />
+                    <Pressable onPress={() => handleDownClick()} style={styles.downDirection} />
                     <View style={styles.leftDirection} />
                     <View style={styles.rightDirection} />
                 </View>

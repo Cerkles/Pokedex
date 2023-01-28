@@ -11,3 +11,10 @@ export const requestFlavorText = (url) => {
     const response = axios.get(url)
     return response
 }
+
+export const request151 = (id) => {
+const url = `https://pokeapi.co/api/v2/pokemon-form/${id}/`
+
+const response = axios.get(url)
+return response
+}
