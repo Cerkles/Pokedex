@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, Button, Image } from 'react-native'
+import { View, StyleSheet, Text, Pressable, Button, Image,} from 'react-native'
 import { useState, useEffect } from 'react';
 import Scaling from '../Scaling';
 import { request151 } from '../Requests';
@@ -8,13 +8,7 @@ export default function Pokedex() {
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
-    const [pokeContainer, setPokeContainer] = useState([])
-    const pokeImages = [
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png",
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png",
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/74.png",
-        "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png"
-    ]
+    const [pokeContainer, setPokeContainer] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
     let [counter, setCounter] = useState(1)
 
 
@@ -31,7 +25,6 @@ export default function Pokedex() {
     }
 
 
-    console.log(pokeContainer)
     return (
         <View style={styles.container}>
 
