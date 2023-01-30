@@ -41,6 +41,13 @@ export default function Pokedex() {
                     <View style={[styles.smallLight, { backgroundColor: smallYellow }]} />
                     <View style={[styles.smallLight, { backgroundColor: smallGreen }]} />
                 </View>
+                <View style={styles.topBorder}>
+                    <View style={styles.topLeft} />
+                    <View style={styles.topDiagonal}>
+                        <View style={styles.diagonal} />
+                    </View>
+                    <View style={styles.topRight} />
+                </View>
             </View>
 
             <View style={styles.middleDex}>
@@ -85,7 +92,8 @@ const styles = StyleSheet.create({
         flex: 2,
     },
     botDex: {
-        flex: 2,
+        flex: 1.5,
+        marginTop: "5%",
     },
 
     /////////////////////////////////////////////////////////////
@@ -137,11 +145,40 @@ const styles = StyleSheet.create({
         width: Scaling.windowHeight * .03,
         height: Scaling.windowHeight * .03,
     },   
+    topBorder: {
+        flexDirection: "row",
+        position: "absolute",
+        top: Scaling.windowHeight * .11,
+    },
+    topLeft: {
+        borderBottomWidth: 4,
+        borderBottomRightRadius: 2,
+        height: 50,
+        width: 220,
+    },
+    topDiagonal: {
+        justifyContent: "center",
+        height: 50,
+        width: 80,
+    },
+    diagonal: {
+        borderWidth: 2,
+        transform: [{ rotate: "-29deg" }],
+        width: 95,
+        marginLeft: -7,
+    },
+    topRight: {
+        borderTopWidth: 4,
+        borderTopLeftRadius: 2,
+        height: 50,
+        width: 130,
+    },
     
     /////////////////////////////////////////////////////////////
     
     screenContainer: {
         position: 'absolute',
+        top: "5%",
         left: '10%',
         backgroundColor: "#efefef",
         borderWidth: 2,
@@ -267,13 +304,15 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: Scaling.windowHeight * .05,
         left: Scaling.windowWidth * .03,
-        backgroundColor: '#111',
-        borderWidth: 4,
+        backgroundColor: '#222',
+        borderWidth: 1,
+        borderBottomWidth: 2,
+        borderRightWidth: 2,
         borderRadius: 50,
         height: Scaling.windowHeight * .07,
         width: Scaling.windowHeight * .07,
     },
-        greenScreen: {
+    greenScreen: {
         position: 'absolute',
         top: Scaling.windowHeight * .15,
         left: Scaling.windowWidth * .23,
@@ -292,6 +331,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'skyblue',
         borderRadius: 10,
         borderWidth: 1,
+        borderBottomWidth: 2,
+        borderRightWidth: 2,
     },
     thinRed: {
         position: 'absolute',
@@ -302,5 +343,8 @@ const styles = StyleSheet.create({
         backgroundColor: 'red',
         borderRadius: 10,
         borderWidth: 1,
+        borderBottomWidth: 2,
+        borderRightWidth: 2,
+
     },
 })
