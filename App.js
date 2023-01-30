@@ -9,8 +9,8 @@ export default function App() {
     <View style={styles.container}>
       <StatusBar style="auto" />
       {/* <HomeScreen /> */}
-      {/* <InfoScreen /> */}
-      <Pokedex />
+      <InfoScreen />
+      {/* <Pokedex /> */}
     </View>
   );
 }
