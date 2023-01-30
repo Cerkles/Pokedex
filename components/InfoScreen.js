@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { requestPokemon } from '../Requests'
 import { requestFlavorText } from '../Requests'
 import Scaling from '../Scaling'
+import ColorTypes from '../ColorTypes'
 
 export default function InfoScreen() {
     const [flavorText, setFlavorText] = useState("")
@@ -13,6 +14,7 @@ export default function InfoScreen() {
     const [type, setType] = useState([])
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
+    const [typeBackground, setTypeBackground] = useState('white')
 
 
     const handleSubmit = () => {
@@ -29,13 +31,17 @@ export default function InfoScreen() {
         type[1] ? setType2(type[1].type.name) : (setType2(''))
     }, [type])
 
-    console.log(type1, type2)
+    useEffect(() => {
+
+    }, [type1])
+
+
     return (
         <SafeAreaView style={styles.container}>
 
             <View style={{ flexShrink: 2, alignItems: 'center' }}>
                 
-                <View style={styles.spriteContainer}>
+                <View style={[styles.spriteContainer, {backgroundColor: typeBackground}]}>
                     <Image
                         style={styles.sprite}
                         resizeMode='cover'
@@ -85,7 +91,6 @@ const styles = StyleSheet.create({
         width: Scaling.windowHeight * .2,
     },
     spriteContainer: {
-        backgroundColor: 'white',
         borderRadius: 150,
         width: Scaling.windowHeight * .3,
         height: Scaling.windowHeight * .3,
