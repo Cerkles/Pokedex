@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Pressable, Button, Image,} from 'react-native'
+import { View, StyleSheet, Text, Pressable, Image} from 'react-native'
 import { useState, useEffect } from 'react';
 import Scaling from '../Scaling';
 import { request151 } from '../Requests';
@@ -10,11 +10,17 @@ export default function Pokedex() {
     const [smallGreen, setSmallGreen] = useState('limegreen')
     const [pokeContainer, setPokeContainer] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
     let [counter, setCounter] = useState(1)
+    const [blueLightOn, setBlueLightOn] = useState(false)
+    const [lightsOn, setLightsOn] = useState(false)
 
 
     useEffect(() => {
         request151(counter).then((response) => response && setPokeContainer(response.data.sprites.front_default))
     }, [counter])
+
+    useEffect(() => {
+        blueLightOn ? (setBlueLight('blue')):(setBlueLight('#90c9df'))
+    }, [blueLightOn])
 
     const handleUpClick = () => {
         counter === 151 ? (setCounter(1)) : (setCounter(counter += 1))
@@ -24,7 +30,16 @@ export default function Pokedex() {
         counter === 1 ? (setCounter(151)) : (setCounter(counter -= 1))
     }
 
+    const lights = () => {
+        lightsOn === false ? (setBlueLight('blue')) : (setBlueLight('#90c9df'))
+        setLightsOn(!lightsOn)
+    }
 
+    const handleLightsOn = () => {
+        setInterval(lights, 2000)
+    }
+
+console.log(lightsOn)
     return (
         <View style={styles.container}>
 
@@ -69,9 +84,10 @@ export default function Pokedex() {
                     <Pressable onPress={() => handleDownClick()} style={styles.downDirection} />
                     <View style={styles.leftDirection} />
                     <View style={styles.rightDirection} />
+                    <View style={styles.middleDirection} />
                 </View>
-                <View style={styles.thinRed} />
-                <View style={styles.thinBlue} />
+                <Pressable onPress={() => handleLightsOn()} style={styles.thinRed} />
+                <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
                 <View style={styles.blackButton} />
                 <View style={styles.greenScreen} />
             </View>
@@ -268,44 +284,57 @@ const styles = StyleSheet.create({
     },
     upDirection: {
         width: '33%',
-        height: '45%',
-        backgroundColor: '#111',
+        height: '39%',
+        backgroundColor: '#222',
         borderRadius: 10,
         position: 'absolute',
-        left: '33%'
+        left: '33%',
+        borderWidth: 3
     },
     downDirection: {
         width: '33%',
-        height: '45%',
-        backgroundColor: '#111',
+        height: '39%',
+        backgroundColor: '#222',
         borderRadius: 10,
         position: 'absolute',
         bottom: 0,
-        left: '33%'
+        left: '33%',
+        borderWidth: 3
     },
     leftDirection: {
-        width: '45%',
+        width: '39%',
         height: '33%',
-        backgroundColor: '#111',
+        backgroundColor: '#222',
         borderRadius: 10,
         position: 'absolute',
-        top: '33%'
+        top: '33%',
+        borderWidth: 3
     },
     rightDirection: {
-        width: '45%',
+        width: '39%',
         height: '33%',
-        backgroundColor: '#111',
+        backgroundColor: '#222',
         borderRadius: 10,
         position: 'absolute',
         right: 0,
-        top: '33%'
+        top: '33%',
+        borderWidth: 3
+    },
+    middleDirection:{
+        width: '33%',
+        height: '33%',
+        backgroundColor: '#222',
+        position: 'absolute',
+        top: '33%',
+        left: '33%',
+        borderRadius: 8
     },
     blackButton: {
         position: 'absolute',
         top: Scaling.windowHeight * .05,
         left: Scaling.windowWidth * .03,
         backgroundColor: '#222',
-        borderWidth: 1,
+        borderWidth: 3,
         borderBottomWidth: 2,
         borderRightWidth: 2,
         borderRadius: 50,
