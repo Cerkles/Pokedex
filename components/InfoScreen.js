@@ -17,7 +17,6 @@ export default function InfoScreen() {
     const [type2, setType2] = useState('')
     const [typeBackground, setTypeBackground] = useState('white')
 
-
     const handleSubmit = () => {
         requestPokemon(search).then((response) => (response &&
             setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default), setPokeName(response.data.forms[0].name), setType(response.data.types), setStats(response.data.stats)))
@@ -32,6 +31,9 @@ export default function InfoScreen() {
         type[1] ? setType2(type[1].type.name) : (setType2(''))
     }, [type])
 
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -59,17 +61,17 @@ export default function InfoScreen() {
             </View>
 
             <View style={styles.searchInfo}>
-                <Text style={{ fontSize: 25, textAlign: 'center' }}>{pokeName}</Text>
+                <Text style={{ fontSize: 25, textAlign: 'center' }}>{capitalizeFirstLetter(pokeName)}</Text>
                 <Text style={{ padding: '5%', textAlign: 'center' }}>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ").toUpperCase()}</Text>
 
         <View style={styles.typeContainer}>
-                <Text>{type1}</Text>
-                {type2.length !== 0 && <Text>{type2}</Text>}
+                <Text>{capitalizeFirstLetter(type1)}</Text>
+                {type2.length !== 0 && <Text>{capitalizeFirstLetter(type2)}</Text>}
                 </View>
 
                 <View>
                     {stats.length !== 0 && stats.map((stat) => 
-                    <Text>{stat.stat.name} - {stat.base_stat}</Text>
+                    <Text>{capitalizeFirstLetter(stat.stat.name)}: {stat.base_stat}</Text>
                     )}
                 </View>
             </View>
