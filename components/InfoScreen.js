@@ -12,14 +12,14 @@ export default function InfoScreen() {
     const [dexEntry, setDexEntry] = useState("")
     const [pokeName, setPokeName] = useState("")
     const [type, setType] = useState([])
+    const [stats, setStats] = useState([])
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
     const [typeBackground, setTypeBackground] = useState('white')
 
-
     const handleSubmit = () => {
         requestPokemon(search).then((response) => (response &&
-            setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default), setPokeName(response.data.forms[0].name), setType(response.data.types)))
+            setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default), setPokeName(response.data.forms[0].name), setType(response.data.types), setStats(response.data.stats)))
     }
 
     useEffect(() => {
@@ -31,41 +31,49 @@ export default function InfoScreen() {
         type[1] ? setType2(type[1].type.name) : (setType2(''))
     }, [type])
 
-    useEffect(() => {
-
-    }, [type1])
-
+    function capitalizeFirstLetter(string){
+        return string.charAt(0).toUpperCase() + string.slice(1)
+    }
 
     return (
         <SafeAreaView style={styles.container}>
 
             <View style={{ flexShrink: 2, alignItems: 'center' }}>
-                
-                <View style={[styles.spriteContainer, {backgroundColor: typeBackground}]}>
+
+                <View style={styles.searchBar}>
+                    <TextInput
+                        autoCorrect={false}
+                        autoCapitalize='none'
+                        style={styles.search}
+                        value={search}
+                        onChangeText={setSearch}
+                    ></TextInput>
+                    <Button title='Search' onPress={() => handleSubmit()} />
+                </View>
+
+                <View style={[styles.spriteContainer, { backgroundColor: typeBackground }]}>
                     <Image
                         style={styles.sprite}
                         resizeMode='cover'
                         source={{ uri: sprite }} />
                 </View>
-                <Text style={{fontSize: 20}}>{pokeName}</Text>
-                <Text style={{padding: '5%'}}>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ").toUpperCase()}</Text>
+
             </View>
 
-            <View style={{ flex: 2 }}>
-                <TextInput
-                    autoCorrect={false}
-                    autoCapitalize='none'
-                    style={styles.search}
-                    value={search}
-                    onChangeText={setSearch}
-                ></TextInput>
+            <View style={styles.searchInfo}>
+                <Text style={{ fontSize: 25, textAlign: 'center' }}>{capitalizeFirstLetter(pokeName)}</Text>
+                <Text style={{ padding: '5%', textAlign: 'center' }}>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ").toUpperCase()}</Text>
 
+        <View style={styles.typeContainer}>
+                <Text>{capitalizeFirstLetter(type1)}</Text>
+                {type2.length !== 0 && <Text>{capitalizeFirstLetter(type2)}</Text>}
+                </View>
 
-                <Button title='Click' onPress={() => handleSubmit()} />
-
-
-        <Text>{type1}</Text>
-        <Text>{type2}</Text>
+                <View>
+                    {stats.length !== 0 && stats.map((stat) => 
+                    <Text>{capitalizeFirstLetter(stat.stat.name)}: {stat.base_stat}</Text>
+                    )}
+                </View>
             </View>
         </SafeAreaView>
     )
@@ -86,9 +94,17 @@ const styles = StyleSheet.create({
         paddingLeft: 5,
         backgroundColor: 'white'
     },
+    searchBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        margin: '1%'
+    },
+    searchInfo: {
+        flex: 2,
+    },
     sprite: {
-        height: Scaling.windowHeight * .2,
-        width: Scaling.windowHeight * .2,
+        height: Scaling.windowHeight * .25,
+        width: Scaling.windowHeight * .25,
     },
     spriteContainer: {
         borderRadius: 150,
@@ -98,5 +114,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1
     },
+    typeContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-evenly'
+    }
 
 })
