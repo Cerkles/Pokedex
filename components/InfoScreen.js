@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { requestPokemon } from '../Requests'
 import { requestFlavorText } from '../Requests'
 import Scaling from '../Scaling'
-import ColorTypes from '../ColorTypes'
+import Types from './Types'
 
 export default function InfoScreen() {
     const [flavorText, setFlavorText] = useState("")
@@ -38,7 +38,7 @@ export default function InfoScreen() {
     return (
         <SafeAreaView style={styles.container}>
 
-            <View style={{ flexShrink: 2, alignItems: 'center' }}>
+            <View style={{ flex: 2, alignItems: 'center',}}>
 
                 <View style={styles.searchBar}>
                     <TextInput
@@ -64,16 +64,13 @@ export default function InfoScreen() {
                 <Text style={{ fontSize: 25, textAlign: 'center' }}>{capitalizeFirstLetter(pokeName)}</Text>
                 <Text style={{ padding: '5%', textAlign: 'center' }}>{dexEntry.replace(/\n/g, " ").replace(/\f/g, " ").toUpperCase()}</Text>
 
-        <View style={styles.typeContainer}>
-                <Text>{capitalizeFirstLetter(type1)}</Text>
-                {type2.length !== 0 && <Text>{capitalizeFirstLetter(type2)}</Text>}
-                </View>
+            {type1 && <Types type1={type1} type2={type2} />}
 
-                <View>
+            <View style={{marginTop: "3%"}}>
                     {stats.length !== 0 && stats.map((stat) => 
                     <Text>{capitalizeFirstLetter(stat.stat.name)}: {stat.base_stat}</Text>
                     )}
-                </View>
+            </View>
             </View>
         </SafeAreaView>
     )
@@ -100,7 +97,7 @@ const styles = StyleSheet.create({
         margin: '1%'
     },
     searchInfo: {
-        flex: 2,
+        flex: 3,
     },
     sprite: {
         height: Scaling.windowHeight * .25,
@@ -114,9 +111,5 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderWidth: 1
     },
-    typeContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-evenly'
-    }
 
 })
