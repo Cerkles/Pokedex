@@ -5,7 +5,7 @@ import { requestFlavorText } from '../Requests'
 import Scaling from '../Scaling'
 import Types from './Types'
 
-export default function InfoScreen() {
+export default function InfoScreen({route}) {
     const [flavorText, setFlavorText] = useState("")
     const [search, setSearch] = useState("")
     const [sprite, setSprite] = useState("")
@@ -16,6 +16,12 @@ export default function InfoScreen() {
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
     const [typeBackground, setTypeBackground] = useState('white')
+
+    useEffect(() => {
+        requestPokemon(route.params.id).then((response) => (response &&
+            setFlavorText(response.data.species.url), setSprite(response.data.sprites.front_default), setPokeName(response.data.forms[0].name), setType(response.data.types), setStats(response.data.stats)))
+   
+    }, [])
 
     const handleSubmit = () => {
         requestPokemon(search).then((response) => (response &&
