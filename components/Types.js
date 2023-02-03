@@ -7,59 +7,41 @@ export default function Types({ type1, type2 }) {
     function typeColor(type) {
         switch (type) {
             case 'grass':
-                return 'green'
-                break;
+                return '#78C84F'
             case 'water':
-                return 'blue'
-                break;
+                return '#6790F0'
             case 'fire':
-                return 'orange'
-                break;
+                return '#EF8031'
             case 'normal':
-                return 'white'
-                break;
+                return '#A8A877'
             case 'electric':
-                return 'gold'
-                break;
+                return '#F9CF30'
             case 'ice':
-                return 'lightblue'
-                break;
+                return '#99D8D8'
             case 'fighting':
-                return 'red'
-                break;
+                return '#C03028'
             case 'poison':
-                return 'purple'
-                break;
+                return '#9F40A0'
             case 'flying':
-                return 'skyblue'
-                break;
+                return '#A790F0'
             case 'psychic':
-                return 'violet'
-                break;
+                return '#F85888'
             case 'bug':
-                return 'lightgreen'
-                break;
+                return '#A8B721'
             case 'ground':
-                return 'brown'
-                break;
+                return '#E0C068'
             case 'rock':
-                return 'grey'
-                break;
+                return '#B8A038'
             case 'ghosts':
-                return 'blue'
-                break;
+                return '#6F5898'
             case 'dark':
-                return 'black'
-                break;
+                return '#705848'
             case 'dragon':
-                return 'darkpurple'
-                break;
+                return '#7138F8'
             case 'steel':
-                return 'silver'
-                break;
+                return '#B8B8D0'
             case 'fairy':
-                return 'pink'
-                break;
+                return '#EE99AC'
         }
     }
 
