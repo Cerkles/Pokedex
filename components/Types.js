@@ -32,8 +32,8 @@ export default function Types({ type1, type2 }) {
                 return '#E0C068'
             case 'rock':
                 return '#B8A038'
-            case 'ghosts':
-                return '#6F5898'
+            case 'ghost':
+                return '#6F5897'
             case 'dark':
                 return '#705848'
             case 'dragon':
