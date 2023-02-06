@@ -49,7 +49,7 @@ export default function InfoScreen({route}) {
     function capitalizeFirstLetter(string){
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
-    
+    console.log(flavorText)
     return (
         <View style={[styles.container, {backgroundColor: typeColor(type1)}]}>
 
@@ -63,7 +63,10 @@ export default function InfoScreen({route}) {
                         value={search}
                         onChangeText={setSearch}
                     ></TextInput>
-                    <TouchableOpacity style={styles.searchButton} onPress={() => handleSubmit()}></TouchableOpacity>
+                    <TouchableOpacity style={styles.searchButton} onPress={() => handleSubmit()}>
+                        <View style={{height: '50%', width: '100%', backgroundColor: 'red', borderBottomWidth: 1, borderTopRightRadius: 2}}/>
+                        <View style={{height: '15%', width: '15%', borderRadius: 50, backgroundColor: 'black', position: 'absolute', top: '42%', left: '42%' }}/>
+                    </TouchableOpacity>
                 </View>
 
                     <Image
@@ -89,7 +92,7 @@ export default function InfoScreen({route}) {
                     <Text style={styles.statValues}>{stat.base_stat}</Text>
                     <View style={styles.valueBar}>
                         <View style={[styles.statBar, 
-                            {backgroundColor: typeColor(type1), maxWidth: "100%", width: stat.base_stat}]}/>
+                            {backgroundColor: typeColor(type1), maxWidth: "100%", width: stat.base_stat*.9}]}/>
 
                     </View>
                     </View>
@@ -115,7 +118,8 @@ const styles = StyleSheet.create({
     searchBar: {
         flexDirection: 'row',
         margin: '1%',
-        marginTop: Scaling.windowHeight * .05,
+        marginTop: Scaling.windowHeight * .055,
+        height: Scaling.windowWidth * .05
     },
     search: {
         height: '150%',
@@ -133,7 +137,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderTopRightRadius: 3,
         borderBottomRightRadius: 3,
-        backgroundColor: "white"
+        backgroundColor: "white", 
     },
     sprite: {
         height: Scaling.windowHeight * .3,
