@@ -1,22 +1,23 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import HomeScreen from './components/HomeScreen'
+
+import { LogBox } from 'react-native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack'
+import { NavigationContainer } from "@react-navigation/native"
 import InfoScreen from './components/InfoScreen'
 import Pokedex from './components/Pokedex'
 
+const Stack = createNativeStackNavigator()
+LogBox.ignoreAllLogs()
+
 export default function App() {
   return (
-    <View style={styles.container}>
-      <StatusBar style="auto" />
-      {/* <HomeScreen /> */}
-      <InfoScreen />
-      {/* <Pokedex /> */}
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Home"
+          component={Pokedex} />
+          <Stack.Screen name="Info"
+          component={InfoScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

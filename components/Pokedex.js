@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Scaling from '../Scaling';
 import { request151 } from '../Requests';
 
-export default function Pokedex() {
+export default function Pokedex({navigation}) {
     const [blueLight, setBlueLight] = useState('#90c9df')
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
@@ -88,7 +88,7 @@ console.log(lightsOn)
                 </View>
                 <Pressable onPress={() => handleLightsOn()} style={styles.thinRed} />
                 <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
-                <View style={styles.blackButton} />
+                <Pressable onPress={() => navigation.navigate("Info", {id: counter})} style={styles.blackButton} />
                 <View style={styles.greenScreen} />
             </View>
 
