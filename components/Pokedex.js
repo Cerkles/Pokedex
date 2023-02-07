@@ -39,7 +39,7 @@ export default function Pokedex({navigation}) {
         setInterval(lights, 2000)
     }
 
-console.log(lightsOn)
+
     return (
         <View style={styles.container}>
 
