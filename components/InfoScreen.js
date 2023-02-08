@@ -1,10 +1,14 @@
-import { View, StyleSheet, Text, TextInput, Button, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import { View, StyleSheet, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
 import { requestPokemon } from '../Requests'
 import { requestFlavorText } from '../Requests'
 import Scaling from '../Scaling'
 import Types from './Types'
 import typeColor from '../TypeColors'
+import About from './About'
+import Stats from './Stats'
+import Evolution from './Evolution'
+import Other from './Other'
 
 export default function InfoScreen({ route }) {
     const [flavorText, setFlavorText] = useState("")
@@ -16,7 +20,7 @@ export default function InfoScreen({ route }) {
     const [stats, setStats] = useState([])
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
-    const [typeBackground, setTypeBackground] = useState('white')
+    const [tabState, setTabState] = useState('about')
 
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
@@ -50,12 +54,7 @@ export default function InfoScreen({ route }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-    function getFlavorText() {
-        for (let entry of dexEntry) {
-            if (entry.language.name === 'en') {
-            return entry.flavor_text.replace(/\n/g, " ").replace(/\f/g, " ").toUpperCase();
-        }}
-    }
+
 
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
@@ -87,23 +86,33 @@ export default function InfoScreen({ route }) {
             <View style={styles.searchInfo}>
 
                 <Text style={{ fontSize: 25, textAlign: 'center' }}>{capitalizeFirstLetter(pokeName)}</Text>
+
                 {type1 && <Types type1={type1} type2={type2} />}
-                {dexEntry !== '' && <Text style={{ padding: '5%', textAlign: 'center' }}>{getFlavorText()}</Text>}
 
-                <View style={styles.stats}>
-                    {stats.length !== 0 && stats.map((stat) =>
-                        <View style={styles.statContainer}>
-                            <Text>{capitalizeFirstLetter(stat.stat.name)
-                                .replace("ecial-", ". ").replace("attack", "Atk").replace("defense", "Def")}: </Text>
-                            <Text style={styles.statValues}>{stat.base_stat}</Text>
-                            <View style={styles.valueBar}>
-                                <View style={[styles.statBar,
-                                { backgroundColor: typeColor(type1), maxWidth: "100%", width: stat.base_stat * .9 }]} />
-
-                            </View>
-                        </View>
-                    )}
+                <View style={styles.tabs}>
+                    <TouchableOpacity onPress={() => setTabState('about')}>
+                        <Text>About</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTabState('stats')}>
+                        <Text>Stats</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTabState('evolution')}>
+                        <Text>Evolution</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => setTabState('other')}>
+                        <Text>Other</Text>
+                    </TouchableOpacity>
                 </View>
+
+                <View>
+                    {tabState === 'about' ? <About dexEntry={dexEntry}/> :
+                        tabState === 'stats' ? <Stats stats={stats} type1={type1}/> :
+                        tabState === 'evolution' ? <Evolution /> :
+                        <Other />
+                    }
+                    
+                </View>
+
             </View>
         </View>
     )
@@ -150,7 +159,14 @@ const styles = StyleSheet.create({
         width: Scaling.windowHeight * .3,
     },
     //////////////////////////////////////////////////////////////////////////
-
+    
+    tabs: {
+        width: '100%',
+        height: '10%',
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+        alignItems: 'center'
+    },
     searchInfo: {
         flex: 3,
         backgroundColor: "#efefef",
@@ -159,31 +175,5 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 25,
         paddingTop: "2%"
     },
-    statContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        margin: "1%"
-    },
-    stats: {
-        marginTop: "3%",
-        marginLeft: "5%",
-    },
-    statValues: {
-        position: "absolute",
-        left: Scaling.windowWidth * 0.17
-    },
-    valueBar: {
-        position: "absolute",
-        left: Scaling.windowWidth * 0.25,
-        height: Scaling.windowWidth * 0.03,
-        flexDirection: "row",
-        width: Scaling.windowWidth * 0.63,
-        backgroundColor: 'white',
-        borderRadius: 10,
-    },
-    statBar: {
-        height: '100%',
-        flexDirection: "row",
-        borderRadius: 10,
-    },
+
 })

@@ -29,7 +29,7 @@ export default function Types({ type1, type2 }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        height: '10%',
+        height: '8%',
     },
     typeContainer: {
         flexDirection: 'row',
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
         height: "100%",
     },
     types: {
-        width: "50%",
+        width: "30%",
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
