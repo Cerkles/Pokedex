@@ -23,6 +23,7 @@ export default function InfoScreen({ route }) {
     const [tabState, setTabState] = useState('about')
     const [evoChain, setEvoChain] = useState([])
 
+
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
             setSpecies(response.data.species.url),
@@ -56,8 +57,6 @@ export default function InfoScreen({ route }) {
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
-
-    console.log(sprite)
 
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
@@ -93,19 +92,19 @@ export default function InfoScreen({ route }) {
                 {type1 && <Types type1={type1} type2={type2} />}
 
                 <View style={styles.tabs}>
-                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    <TouchableOpacity style={[styles.singleTab, {borderBottomWidth: tabState === 'about' ? 1 : 0}]}
                     onPress={() => setTabState('about')}>
                         <Text>About</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    <TouchableOpacity style={[styles.singleTab, {borderBottomWidth: tabState === 'stats' ? 1 : 0}]}
                     onPress={() => setTabState('stats')}>
                         <Text>Stats</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    <TouchableOpacity style={[styles.singleTab, {borderBottomWidth: tabState === 'evolution' ? 1 : 0}]}
                     onPress={() => setTabState('evolution')}>
                         <Text>Evolution</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    <TouchableOpacity style={[styles.singleTab, {borderBottomWidth: tabState === 'other' ? 1 : 0}]}
                     onPress={() => setTabState('other')}>
                         <Text>Other</Text>
                     </TouchableOpacity>
@@ -173,6 +172,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-evenly',
         alignItems: 'center'
+    },
+    singleTab: {
+        alignItems: 'center',
+        width: '20%',
+        paddingBottom: '2%'
     },
     searchInfo: {
         flex: 3,

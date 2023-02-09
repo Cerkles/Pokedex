@@ -54,6 +54,7 @@ function capitalizeFirstLetter(string) {
                             source={{ uri: sprite }}/>
                     <Text style={styles.name}>{capitalizeFirstLetter(evolution)}</Text>
                 </View>
+                {evolution1.length !== 0 && <Text>→</Text>}
                 
                 {evolution1.length !== 0 && 
                     <View>
@@ -62,6 +63,8 @@ function capitalizeFirstLetter(string) {
                             source={{ uri: sprite1 }}/>
                         <Text style={styles.name}>{capitalizeFirstLetter(evolution1)}</Text>
                     </View>}
+
+                    {evolution2.length !== 0 && <Text>→</Text>}
                     
                 {evolution2.length !== 0 && 
                     <View>
@@ -83,6 +86,7 @@ const styles = StyleSheet.create({
         marginTop: Scaling.windowHeight * 0.08,
         flexDirection: 'row',
         justifyContent: 'space-evenly',
+        alignItems: 'center'
     },
     name: {
         textAlign: "center",
