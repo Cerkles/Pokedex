@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
 import { requestPokemon } from '../Requests'
-import { requestFlavorText } from '../Requests'
+import { requestSpecies } from '../Requests'
 import Scaling from '../Scaling'
 import Types from './Types'
 import typeColor from '../TypeColors'
@@ -11,7 +11,7 @@ import Evolution from './Evolution'
 import Other from './Other'
 
 export default function InfoScreen({ route }) {
-    const [flavorText, setFlavorText] = useState("")
+    const [species, setSpecies] = useState("")
     const [search, setSearch] = useState("")
     const [sprite, setSprite] = useState("")
     const [dexEntry, setDexEntry] = useState("")
@@ -21,11 +21,12 @@ export default function InfoScreen({ route }) {
     const [type1, setType1] = useState('')
     const [type2, setType2] = useState('')
     const [tabState, setTabState] = useState('about')
+    const [evoChain, setEvoChain] = useState([])
 
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
-            setFlavorText(response.data.species.url),
-            setSprite(response.data.sprites.front_default),
+            setSpecies(response.data.species.url),
+            setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
             setStats(response.data.stats)))
@@ -33,17 +34,19 @@ export default function InfoScreen({ route }) {
 
     const handleSubmit = () => {
         requestPokemon(search).then((response) => (response &&
-            setFlavorText(response.data.species.url),
-            setSprite(response.data.sprites.front_default),
+            setSpecies(response.data.species.url),
+            setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
             setStats(response.data.stats)))
     }
 
     useEffect(() => {
-        requestFlavorText(flavorText).then((response) =>
-            (response && setDexEntry(response.data.flavor_text_entries)))
-    }, [flavorText])
+        requestSpecies(species).then((response) =>
+            (response && 
+                setDexEntry(response.data.flavor_text_entries), 
+                setEvoChain(response.data.evolution_chain.url)))
+    }, [species])
 
     useEffect(() => {
         type[0] ? setType1(type[0].type.name) : (setType1(''))
@@ -54,7 +57,7 @@ export default function InfoScreen({ route }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-
+    console.log(sprite)
 
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
@@ -105,9 +108,9 @@ export default function InfoScreen({ route }) {
                 </View>
 
                 <View>
-                    {tabState === 'about' ? <About dexEntry={dexEntry}/> :
+                    {tabState === 'about' ? <About dexEntry={dexEntry} pokeName={pokeName}/> :
                         tabState === 'stats' ? <Stats stats={stats} type1={type1}/> :
-                        tabState === 'evolution' ? <Evolution /> :
+                        tabState === 'evolution' ? <Evolution evoChain={evoChain}/> :
                         <Other />
                     }
                     
