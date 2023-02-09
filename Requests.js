@@ -7,7 +7,7 @@ export const requestPokemon = (name) => {
     return response
 }
 
-export const requestFlavorText = (url) => {
+export const requestSpecies = (url) => {
     const response = axios.get(url)
     return response
 }
@@ -17,4 +17,9 @@ const url = `https://pokeapi.co/api/v2/pokemon-form/${id}/`
 
 const response = axios.get(url)
 return response
+}
+
+export const requestEvolution = (url) => {
+    const response = axios.get(url)
+    return response
 }
