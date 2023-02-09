@@ -26,7 +26,7 @@ export default function InfoScreen({ route }) {
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
             setSpecies(response.data.species.url),
-            setSprite(response.data.sprites.front_default),
+            setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
             setStats(response.data.stats)))
@@ -35,7 +35,7 @@ export default function InfoScreen({ route }) {
     const handleSubmit = () => {
         requestPokemon(search).then((response) => (response &&
             setSpecies(response.data.species.url),
-            setSprite(response.data.sprites.front_default),
+            setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
             setStats(response.data.stats)))
@@ -43,7 +43,9 @@ export default function InfoScreen({ route }) {
 
     useEffect(() => {
         requestSpecies(species).then((response) =>
-            (response && setDexEntry(response.data.flavor_text_entries), setEvoChain(response.data.evolution_chain.url)))
+            (response && 
+                setDexEntry(response.data.flavor_text_entries), 
+                setEvoChain(response.data.evolution_chain.url)))
     }, [species])
 
     useEffect(() => {
@@ -55,6 +57,7 @@ export default function InfoScreen({ route }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
+    console.log(sprite)
 
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
@@ -105,7 +108,7 @@ export default function InfoScreen({ route }) {
                 </View>
 
                 <View>
-                    {tabState === 'about' ? <About dexEntry={dexEntry}/> :
+                    {tabState === 'about' ? <About dexEntry={dexEntry} pokeName={pokeName}/> :
                         tabState === 'stats' ? <Stats stats={stats} type1={type1}/> :
                         tabState === 'evolution' ? <Evolution evoChain={evoChain}/> :
                         <Other />
