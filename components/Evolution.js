@@ -1,11 +1,15 @@
 import { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, Image } from 'react-native'
 import { requestEvolution, requestPokemon } from '../Requests';
+import Scaling from '../Scaling';
 
 export default function Evolution({evoChain, search}) {
     const [evolution, setEvolution] = useState([])
     const [evolution1, setEvolution1] = useState([])
     const [evolution2, setEvolution2] = useState([])
+    const [sprite, setSprite] = useState("")
+    const [sprite1, setSprite1] = useState("")
+    const [sprite2, setSprite2] = useState("")
 
 useEffect(() => {
     requestEvolution(evoChain).then((response) => (response && 
@@ -17,21 +21,57 @@ useEffect(() => {
         ))
 }, [evoChain])
 
-console.log(evolution, evolution1, evolution2)
 
-// useEffect(() => {
-//     requestPokemon()
-// })
+useEffect(() => {
+    requestPokemon(evolution).then((response) => (response && 
+        setSprite(response.data.sprites.other['official-artwork'].front_default)
+        ))
+}, [evolution])
+        
+useEffect(() => {
+    requestPokemon(evolution1).then((response) => (response && 
+        setSprite1(response.data.sprites.other['official-artwork'].front_default)
+        ))
+}, [evolution1])
 
+useEffect(() => {
+    requestPokemon(evolution2).then((response) => (response && 
+        setSprite2(response.data.sprites.other['official-artwork'].front_default)
+        ))
+}, [evolution2])
+
+function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+}
 
     return (
         <View>
             {evolution.length !== 0 && 
             <View style={styles.spriteContainer}>
-            <Text>{evolution}</Text>
-            {evolution1.length !== 0 && <Text>{evolution1}</Text>}
-            {evolution2.length !== 0 && <Text>{evolution2}</Text>}
+                <View>
+                    <Image style={styles.sprite}
+                            resizeMode="stretch"
+                            source={{ uri: sprite }}/>
+                    <Text style={styles.name}>{capitalizeFirstLetter(evolution)}</Text>
+                </View>
+                
+                {evolution1.length !== 0 && 
+                    <View>
+                        <Image style={styles.sprite}
+                            resizeMode="stretch"
+                            source={{ uri: sprite1 }}/>
+                        <Text style={styles.name}>{capitalizeFirstLetter(evolution1)}</Text>
+                    </View>}
+                    
+                {evolution2.length !== 0 && 
+                    <View>
+                        <Image style={styles.sprite}
+                            resizeMode="stretch"
+                            source={{ uri: sprite2 }}/>
+                        <Text style={styles.name}>{capitalizeFirstLetter(evolution2)}</Text>
+                    </View>}
             </View>
+
             
             }            
         </View>
@@ -40,10 +80,17 @@ console.log(evolution, evolution1, evolution2)
 
 const styles = StyleSheet.create({
     spriteContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-evenly',
-
-
+        marginTop: Scaling.windowHeight * 0.08,
+        flexDirection: 'row',
+        justifyContent: 'space-evenly',
+    },
+    name: {
+        textAlign: "center",
+    },
+    sprite: {
+        height: Scaling.windowWidth * .25,
+        width: Scaling.windowWidth * .25,
     }
+    
     
 })

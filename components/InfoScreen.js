@@ -93,16 +93,20 @@ export default function InfoScreen({ route }) {
                 {type1 && <Types type1={type1} type2={type2} />}
 
                 <View style={styles.tabs}>
-                    <TouchableOpacity onPress={() => setTabState('about')}>
+                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    onPress={() => setTabState('about')}>
                         <Text>About</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setTabState('stats')}>
+                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    onPress={() => setTabState('stats')}>
                         <Text>Stats</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setTabState('evolution')}>
+                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    onPress={() => setTabState('evolution')}>
                         <Text>Evolution</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setTabState('other')}>
+                    <TouchableOpacity style={{borderBottomWidth: 1}} 
+                    onPress={() => setTabState('other')}>
                         <Text>Other</Text>
                     </TouchableOpacity>
                 </View>
