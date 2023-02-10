@@ -11,9 +11,10 @@ export default function About({ dexEntry, pokeName }) {
 
 
     useEffect(() => {
-        requestPokemon(pokeName).then((response) => (response && setPokeWeight(response.data.weight), setAbilities(response.data.abilities)))
+        requestPokemon(pokeName).then((response) => (response && 
+            setPokeWeight(response.data.weight), 
+            setAbilities(response.data.abilities)))
     }, [pokeName])
-
 
 
     function getFlavorText() {
@@ -28,7 +29,7 @@ export default function About({ dexEntry, pokeName }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
     
-console.log(abilities)
+
 
     return (
         <View>
