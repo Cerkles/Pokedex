@@ -74,11 +74,15 @@ console.log(pokeHeight)
         const meters = String(pokeHeight * 0.1)
         const inches = String((pokeHeight * 0.1) / 0.0254)
         const feet = String(inches/12)
-        const remainder = String(inches%12)
+        let remainder = String(inches%12)
         const feetIndex = feet.indexOf(".")
         const inchesIndex = remainder.indexOf(".")
-        console.log(remainder)
-        return <Text>{feet.slice(0, feetIndex)}'{remainder.slice(0, inchesIndex)}" ({meters.slice(0, feetIndex + 2)}m) </Text>
+        if(remainder.slice(inchesIndex+1, inchesIndex+2) >= 5){
+            remainder = +remainder.slice(0, inchesIndex) + 1
+        } else {
+            remainder = remainder.slice(0, inchesIndex)
+        }
+        return <Text>{feet.slice(0, feetIndex)}'{remainder}" ({meters.slice(0, feetIndex + 2)}m) </Text>
     }
 
     return (
