@@ -14,35 +14,35 @@ export default function About({ dexEntry, pokeName }) {
     const [description3, setDescription3] = useState([])
 
     useEffect(() => {
-        requestPokemon(pokeName).then((response) => (response && 
-            setPokeWeight(response.data.weight), 
+        requestPokemon(pokeName).then((response) => (response &&
+            setPokeWeight(response.data.weight),
             setPokeHeight(response.data.height),
             setAbility1(""), setAbility2(""), setAbility3(""),
             setAbility1(response.data.abilities[0].ability.name),
             setAbility2(response.data.abilities[1].ability.name),
             setAbility3(response.data.abilities[2].ability.name)
-            ))
+        ))
     }, [pokeName])
 
     useEffect(() => {
-        requestAbility(ability1).then((response) => ( response && 
+        requestAbility(ability1).then((response) => (response &&
             setDescription1(response.data.effect_entries)
-            ))
+        ))
     }, [ability1])
 
     useEffect(() => {
-        requestAbility(ability2).then((response) => ( response && 
+        requestAbility(ability2).then((response) => (response &&
             setDescription2(response.data.effect_entries)
-            ))
+        ))
     }, [ability2])
 
     useEffect(() => {
-        requestAbility(ability3).then((response) => ( response && 
+        requestAbility(ability3).then((response) => (response &&
             setDescription3(response.data.effect_entries)
-            ))
+        ))
     }, [ability3])
 
-console.log(pokeHeight)
+    console.log(pokeHeight)
     function getFlavorText() {
         for (let entry of dexEntry) {
             if (entry.language.name === 'en') {
@@ -51,9 +51,9 @@ console.log(pokeHeight)
         }
     }
 
-    function getAbilityText(description){
-        for(let x of description){
-            if(x.language.name === 'en'){
+    function getAbilityText(description) {
+        for (let x of description) {
+            if (x.language.name === 'en') {
                 return x.short_effect
             }
         }
@@ -63,21 +63,21 @@ console.log(pokeHeight)
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-    function weights(pokeweight){
+    function weights(pokeweight) {
         const kgs = String(pokeweight * 0.1)
         const pounds = String((pokeweight * 0.1) * 2.2046)
         const index = pounds.indexOf(".")
         return <Text> {pounds.slice(0, index + 2)} lbs. ({kgs.slice(0, index + 2)} kg) </Text>
     }
 
-    function heights(pokeHeight){
+    function heights(pokeHeight) {
         const meters = String(pokeHeight * 0.1)
         const inches = String((pokeHeight * 0.1) / 0.0254)
-        const feet = String(inches/12)
-        let remainder = String(inches%12)
+        const feet = String(inches / 12)
+        let remainder = String(inches % 12)
         const feetIndex = feet.indexOf(".")
         const inchesIndex = remainder.indexOf(".")
-        if(remainder.slice(inchesIndex+1, inchesIndex+2) >= 5){
+        if (remainder.slice(inchesIndex + 1, inchesIndex + 2) >= 5) {
             remainder = +remainder.slice(0, inchesIndex) + 1
         } else {
             remainder = remainder.slice(0, inchesIndex)
@@ -87,21 +87,21 @@ console.log(pokeHeight)
 
     return (
         <View>
-            {dexEntry !== '' && <Text style={{ padding: '5%', textAlign: 'center' }}>{getFlavorText()}</Text>}
+            {dexEntry !== '' && <Text style={{ padding: '3%', textAlign: 'center' }}>{getFlavorText()}</Text>}
+            {pokeWeight !== '' && <Text style={{ padding: '3%' }}>Weight: {weights(pokeWeight)}</Text>}
+            {pokeHeight !== '' && <Text style={{ padding: '3%' }}> Height: {heights(pokeHeight)}</Text>}
 
-            {pokeWeight !== '' && <Text style={{ padding: '5%'}}>
-                Weight: {weights(pokeWeight)}
-                </Text>}
+            <View style={{ width: '100%', alignItems: 'center' }}>
+                <View style={{ borderBottomWidth: 1, alignItems: 'center', width: '25%' }}>
+                    <Text>Abilities:</Text>
+                </View>
+            </View>
 
-                {pokeHeight !== '' && <Text style={{ padding: '5%'}}> Height: {heights(pokeHeight)}</Text>}
-
-            <Text>Abilities:</Text>
-            
-            <Text >{capitalizeFirstLetter(ability1)}</Text>
+            <Text >{capitalizeFirstLetter(ability1)}:</Text>
             {description1 !== undefined && <Text>{getAbilityText(description1)}</Text>}
-            {ability2 && <Text >{capitalizeFirstLetter(ability2)}</Text>}
+            {ability2 && <Text >{capitalizeFirstLetter(ability2)}:</Text>}
             {description2 !== undefined && <Text>{getAbilityText(description2)}</Text>}
-            {ability3 && <Text >{capitalizeFirstLetter(ability3)}</Text>}
+            {ability3 && <Text >{capitalizeFirstLetter(ability3)}:</Text>}
             {description3 !== undefined && <Text>{getAbilityText(description3)}</Text>}
 
 
