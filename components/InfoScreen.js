@@ -10,6 +10,7 @@ import Stats from './Stats'
 import Evolution from './Evolution'
 import Other from './Other'
 
+
 export default function InfoScreen({ route }) {
     const [species, setSpecies] = useState("")
     const [search, setSearch] = useState("")
@@ -22,6 +23,7 @@ export default function InfoScreen({ route }) {
     const [type2, setType2] = useState('')
     const [tabState, setTabState] = useState('about')
     const [evoChain, setEvoChain] = useState([])
+    const [pokemonId, setPokemonId] = useState("")
 
 
     useEffect(() => {
@@ -30,7 +32,8 @@ export default function InfoScreen({ route }) {
             setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
-            setStats(response.data.stats)))
+            setStats(response.data.stats),
+            setPokemonId(response.data.id)))
     }, [])
 
     const handleSubmit = () => {
@@ -39,7 +42,8 @@ export default function InfoScreen({ route }) {
             setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
-            setStats(response.data.stats)))
+            setStats(response.data.stats),
+            setPokemonId(response.data.id)))
     }
 
     useEffect(() => {
@@ -81,6 +85,12 @@ export default function InfoScreen({ route }) {
                     style={styles.sprite}
                     resizeMode='stretch'
                     source={{ uri: sprite }} />
+
+                <View style={styles.pokemonId}>
+                    {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
+                    String(pokemonId).length === 2 ? <Text>#0{pokemonId}</Text> :
+                    <Text>#{pokemonId}</Text>}
+                </View>
 
 
             </View>
@@ -163,6 +173,11 @@ const styles = StyleSheet.create({
     sprite: {
         height: Scaling.windowHeight * .3,
         width: Scaling.windowHeight * .3,
+    },
+    pokemonId: {
+        position: "absolute",
+        top: Scaling.windowHeight * 0.11,
+        right: Scaling.windowWidth * 0.08
     },
     //////////////////////////////////////////////////////////////////////////
     

@@ -23,3 +23,10 @@ export const requestEvolution = (url) => {
     const response = axios.get(url)
     return response
 }
+
+export const requestAbility = (ability) => {
+    const url = `https://pokeapi.co/api/v2/ability/${ability}/`
+
+    const response = axios.get(url)
+    return response
+}
