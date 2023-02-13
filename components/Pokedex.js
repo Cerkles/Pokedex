@@ -30,15 +30,6 @@ export default function Pokedex({navigation}) {
         counter === 1 ? (setCounter(151)) : (setCounter(counter -= 1))
     }
 
-    const lights = () => {
-        lightsOn === false ? (setBlueLight('blue')) : (setBlueLight('#90c9df'))
-        setLightsOn(!lightsOn)
-    }
-
-    const handleLightsOn = () => {
-        setInterval(lights, 2000)
-    }
-
 
     return (
         <View style={styles.container}>
@@ -86,7 +77,7 @@ export default function Pokedex({navigation}) {
                     <View style={styles.rightDirection} />
                     <View style={styles.middleDirection} />
                 </View>
-                <Pressable onPress={() => handleLightsOn()} style={styles.thinRed} />
+                <Pressable onPress={() => navigation.navigate("List")} style={styles.thinRed} />
                 <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
                 <Pressable onPress={() => navigation.navigate("Info", {id: counter})} style={styles.blackButton} />
                 <View style={styles.greenScreen} />

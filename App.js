@@ -4,6 +4,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from "@react-navigation/native"
 import InfoScreen from './components/InfoScreen'
 import Pokedex from './components/Pokedex'
+import ListScreen from './components/ListScreen';
 
 const Stack = createNativeStackNavigator()
 LogBox.ignoreAllLogs()
@@ -14,7 +15,9 @@ export default function App() {
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home"
           component={Pokedex} />
-          <Stack.Screen name="Info"
+        <Stack.Screen name="List"
+          component={ListScreen} />
+        <Stack.Screen name="Info"
           component={InfoScreen} />
       </Stack.Navigator>
     </NavigationContainer>
