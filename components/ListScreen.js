@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View, Text, StyleSheet, Image } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { requestPokemon } from "../Requests";
 import { requestPokeList } from "../Requests";
 import { requestSpecies } from "../Requests";
 import Scaling from "../Scaling";
 
-export default function ListScreen() {
+export default function ListScreen({navigation}) {
     const [pokeList, setPokeList] = useState([])
     let counter = 0
 
@@ -25,13 +25,13 @@ export default function ListScreen() {
 
 
                 {pokeList.length !== 0 && pokeList.map((pokemon) =>
-                    <View style={styles.pokeCard}>
+                    <TouchableOpacity onPress={() => navigation.navigate("Info", {id: pokemon.name})} style={styles.pokeCard}>
                         <Image style={{width: '60%', height: '60%'}}
                         resizeMode='stretch'
                         source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${counter+=1}.png`}}/>
                         <Text>{capitalizeFirstLetter(pokemon.name)}</Text>
                         {String(counter).length === 1 ? <Text>#00{counter}</Text> : String(counter).length === 2 ? <Text>#0{counter}</Text> : <Text>#{counter}</Text>}
-                    </View>
+                    </TouchableOpacity>
                 )}
 
 
