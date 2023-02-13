@@ -7,16 +7,11 @@ import Scaling from "../Scaling";
 
 export default function ListScreen() {
     const [pokeList, setPokeList] = useState([])
-    const [sprite, setSprite] = useState("")
+    let counter = 0
 
     useEffect(() => {
         requestPokeList().then((response) => (response && setPokeList(response.data.results)))
     }, [])
-
-    function getPokeInfo(url){
-        requestSpecies(url).then((response) => console.log(response.data.sprites.front_default))
-    }
-
 
 
     function capitalizeFirstLetter(string) {
@@ -31,9 +26,11 @@ export default function ListScreen() {
 
                 {pokeList.length !== 0 && pokeList.map((pokemon) =>
                     <View style={styles.pokeCard}>
-                        {getPokeInfo(pokemon.url)}
-                        {/* {<Image style={{width: '40%', height: '40%'}} source={{uri: getPokeInfo(pokemon.name)}}/>} */}
+                        <Image style={{width: '60%', height: '60%'}}
+                        resizeMode='stretch'
+                        source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${counter+=1}.png`}}/>
                         <Text>{capitalizeFirstLetter(pokemon.name)}</Text>
+                        {String(counter).length === 1 ? <Text>#00{counter}</Text> : String(counter).length === 2 ? <Text>#0{counter}</Text> : <Text>#{counter}</Text>}
                     </View>
                 )}
 
