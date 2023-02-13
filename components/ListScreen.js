@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
-import { requestPokemon } from "../Requests";
 import { requestPokeList } from "../Requests";
-import { requestSpecies } from "../Requests";
 import Scaling from "../Scaling";
 
 export default function ListScreen({navigation}) {
@@ -12,7 +10,6 @@ export default function ListScreen({navigation}) {
     useEffect(() => {
         requestPokeList().then((response) => (response && setPokeList(response.data.results)))
     }, [])
-
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
@@ -26,7 +23,7 @@ export default function ListScreen({navigation}) {
 
                 {pokeList.length !== 0 && pokeList.map((pokemon) =>
                     <TouchableOpacity onPress={() => navigation.navigate("Info", {id: pokemon.name})} style={styles.pokeCard}>
-                        <Image style={{width: '60%', height: '60%'}}
+                        <Image style={styles.sprite}
                         resizeMode='stretch'
                         source={{uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${counter+=1}.png`}}/>
                         <Text>{capitalizeFirstLetter(pokemon.name)}</Text>
@@ -54,11 +51,14 @@ const styles = StyleSheet.create({
     pokeCard: {
         width: '45%',
         height: Scaling.windowHeight * .2,
-        borderWidth: 1,
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 5,
+        borderRadius: 25,
         margin: '1%',
         backgroundColor: '#efefef'
+    }, 
+    sprite: {
+        width: '70%',
+        height: '70%'
     }
 })
