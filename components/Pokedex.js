@@ -1,7 +1,7 @@
 import { View, StyleSheet, Text, Pressable, Image} from 'react-native'
 import { useState, useEffect } from 'react';
 import Scaling from '../Scaling';
-import { request151 } from '../Requests';
+import { request151, requestPokemon } from '../Requests';
 
 export default function Pokedex({navigation}) {
     const [blueLight, setBlueLight] = useState('#90c9df')
@@ -9,6 +9,7 @@ export default function Pokedex({navigation}) {
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
     const [pokeContainer, setPokeContainer] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
+    const [pokeName, setPokeName] = useState('Bulbasaur')
     let [counter, setCounter] = useState(1)
     const [blueLightOn, setBlueLightOn] = useState(false)
     const [lightsOn, setLightsOn] = useState(false)
@@ -16,6 +17,7 @@ export default function Pokedex({navigation}) {
 
     useEffect(() => {
         request151(counter).then((response) => response && setPokeContainer(response.data.sprites.front_default))
+        requestPokemon(counter).then((response) => response && setPokeName(response.data.species.name))
     }, [counter])
 
     useEffect(() => {
@@ -30,13 +32,8 @@ export default function Pokedex({navigation}) {
         counter === 1 ? (setCounter(151)) : (setCounter(counter -= 1))
     }
 
-    const lights = () => {
-        lightsOn === false ? (setBlueLight('blue')) : (setBlueLight('#90c9df'))
-        setLightsOn(!lightsOn)
-    }
-
-    const handleLightsOn = () => {
-        setInterval(lights, 2000)
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
 
@@ -86,10 +83,10 @@ export default function Pokedex({navigation}) {
                     <View style={styles.rightDirection} />
                     <View style={styles.middleDirection} />
                 </View>
-                <Pressable onPress={() => handleLightsOn()} style={styles.thinRed} />
+                <Pressable onPress={() => navigation.navigate("List")} style={styles.thinRed} />
                 <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
                 <Pressable onPress={() => navigation.navigate("Info", {id: counter})} style={styles.blackButton} />
-                <View style={styles.greenScreen} />
+                <View style={styles.greenScreen}><Text style={{fontSize: '20%'}}>{capitalizeFirstLetter(pokeName)}</Text></View>
             </View>
 
         </View>
@@ -349,7 +346,9 @@ const styles = StyleSheet.create({
         width: Scaling.windowWidth * .3,
         height: Scaling.windowHeight * .1,
         borderWidth: 1,
-        borderRadius: 5
+        borderRadius: 5,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     thinBlue: {
         position: 'absolute',
