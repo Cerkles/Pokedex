@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
 import { requestPokeList } from "../Requests";
 import Scaling from "../Scaling";
 
@@ -7,6 +7,7 @@ export default function ListScreen({ navigation }) {
     const [pokeList, setPokeList] = useState([])
     const [pokeCount, setPokeCount] = useState(151)
     const [pokeOffset, setPokeOffset] = useState(0)
+    const [search, setSearch] = useState("")
     let counter = pokeOffset
 
     useEffect(() => {
@@ -21,47 +22,58 @@ export default function ListScreen({ navigation }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-    console.log(counter)
-
     return (
         <ScrollView style={styles.container}>
             <View style={styles.listContainer}>
+            <View style={styles.searchBar}>
+                    <TextInput
+                        autoCorrect={false}
+                        autoCapitalize='none'
+                        style={styles.search}
+                        value={search}
+                        onChangeText={setSearch}
+                    ></TextInput>
+                    <TouchableOpacity style={styles.searchButton} onPress={() => navigation.navigate("Info", { id: search })}>
+                        <View style={{ height: '50%', width: '100%', backgroundColor: 'red', borderBottomWidth: 1, borderTopRightRadius: 2 }} />
+                        <View style={{ height: '15%', width: '15%', borderRadius: 50, backgroundColor: 'black', position: 'absolute', top: '42%', left: '42%' }} />
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.genContainer}>
                     <TouchableOpacity onPress={() => { setPokeCount(151), setPokeOffset(0) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 151 ? 3 : 0}]}>
+                        style={[styles.genButton, {borderWidth: pokeOffset === 0 ? 3 : 0}]}>
                         <Text>Gen. I</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(251), setPokeOffset(151) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 251 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(100), setPokeOffset(151) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 151 ? 3 : 0}]}>
                         <Text>Gen. II</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(386), setPokeOffset(251) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 386 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(135), setPokeOffset(251) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 251 ? 3 : 0}]}>
                         <Text>Gen. III</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(494), setPokeOffset(386) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 494 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(107), setPokeOffset(386) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 386 ? 3 : 0}]}>
                         <Text>Gen. IV</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(649), setPokeOffset(494) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 649 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(155), setPokeOffset(494) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 494 ? 3 : 0}]}>
                         <Text>Gen. V</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(721), setPokeOffset(649) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 721 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(72), setPokeOffset(649) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 649 ? 3 : 0}]}>
                         <Text>Gen. VI</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(809), setPokeOffset(721) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 809 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(88), setPokeOffset(721) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 721 ? 3 : 0}]}>
                         <Text>Gen. VII</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(905), setPokeOffset(809) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 905 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(96), setPokeOffset(809) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 809 ? 3 : 0}]}>
                         <Text>Gen. VIII</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => { setPokeCount(1008), setPokeOffset(905) }}
-                        style={[styles.genButton, {borderWidth: pokeCount === 1008 ? 3 : 0}]}>
+                    <TouchableOpacity onPress={() => { setPokeCount(103), setPokeOffset(905) }}
+                        style={[styles.genButton, {borderWidth: pokeOffset === 905 ? 3 : 0}]}>
                         <Text>Gen. IX</Text>
                     </TouchableOpacity>
                 </View>
@@ -122,5 +134,29 @@ const styles = StyleSheet.create({
     sprite: {
         width: '70%',
         height: '70%'
-    }
+    },
+    searchBar: {
+        flexDirection: 'row',
+        margin: '3%',
+        marginTop: Scaling.windowHeight * .01,
+        height: Scaling.windowWidth * .05
+    },
+    search: {
+        height: '150%',
+        width: Scaling.windowWidth * .6,
+        borderWidth: 1,
+        borderRightWidth: 0,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3,
+        paddingLeft: 5,
+        backgroundColor: 'white'
+    },
+    searchButton: {
+        height: '151%',
+        width: Scaling.windowWidth * .08,
+        borderWidth: 1,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3,
+        backgroundColor: "white",
+    },
 })

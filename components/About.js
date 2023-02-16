@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text } from 'react-native'
+import { View, Text, ScrollView, StyleSheet } from 'react-native'
 import { requestPokemon, requestAbility } from '../Requests';
 
 
@@ -86,10 +86,13 @@ export default function About({ dexEntry, pokeName }) {
     }
 
     return (
-        <View>
+        <ScrollView>
             {dexEntry !== '' && <Text style={{ padding: '3%', textAlign: 'center' }}>{getFlavorText()}</Text>}
+
+            <View style={{flexDirection: 'row', justifyContent: 'space-evenly', margin: '2%'}}>
             {pokeWeight !== '' && <Text style={{ padding: '3%' }}>Weight: {weights(pokeWeight)}</Text>}
             {pokeHeight !== '' && <Text style={{ padding: '3%' }}> Height: {heights(pokeHeight)}</Text>}
+            </View>
 
             <View style={{ width: '100%', alignItems: 'center' }}>
                 <View style={{ borderBottomWidth: 1, alignItems: 'center', width: '25%' }}>
@@ -97,14 +100,28 @@ export default function About({ dexEntry, pokeName }) {
                 </View>
             </View>
 
-            <Text >{capitalizeFirstLetter(ability1)}:</Text>
-            {description1 !== undefined && <Text>{getAbilityText(description1)}</Text>}
-            {ability2 && <Text >{capitalizeFirstLetter(ability2)}:</Text>}
-            {description2 !== undefined && <Text>{getAbilityText(description2)}</Text>}
-            {ability3 && <Text >{capitalizeFirstLetter(ability3)}:</Text>}
-            {description3 !== undefined && <Text>{getAbilityText(description3)}</Text>}
 
 
-        </View>
+            <Text style={styles.abilityName}>{capitalizeFirstLetter(ability1)}:</Text>
+            {description1 !== undefined && <Text style={styles.abilityText}>{getAbilityText(description1)}</Text>}
+            {ability2 && <Text style={styles.abilityName}>{capitalizeFirstLetter(ability2)}:</Text>}
+            {description2 !== undefined && <Text style={styles.abilityText}>{getAbilityText(description2)}</Text>}
+            {ability3 && <Text style={styles.abilityName}>{capitalizeFirstLetter(ability3)}:</Text>}
+            {description3 !== undefined && <Text style={styles.abilityText}>{getAbilityText(description3)}</Text>}
+
+
+        </ScrollView>
     );
 }
+
+const styles = StyleSheet.create({
+    abilityName: {
+        fontSize: '20%',
+        margin: '3%',
+        marginBottom: '-1%',
+    },
+    abilityText: {
+        marginLeft: '3%',
+        marginRight: '3%'
+    }
+})
