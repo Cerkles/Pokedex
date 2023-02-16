@@ -7,7 +7,7 @@ export default function ListScreen({ navigation }) {
     const [pokeList, setPokeList] = useState([])
     const [pokeCount, setPokeCount] = useState(151)
     const [pokeOffset, setPokeOffset] = useState(0)
-    let counter = 0
+    let counter = pokeOffset
 
     useEffect(() => {
         requestPokeList(pokeCount, pokeOffset).then((response) => (response && setPokeList(response.data.results)))
@@ -21,36 +21,47 @@ export default function ListScreen({ navigation }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
+    console.log(counter)
+
     return (
         <ScrollView style={styles.container}>
             <View style={styles.listContainer}>
 
                 <View style={styles.genContainer}>
-                    <TouchableOpacity onPress={() => {setPokeCount(151), setPokeOffset(0), counter = 0}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(151), setPokeOffset(0) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 151 ? 3 : 0}]}>
                         <Text>Gen. I</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(251), setPokeOffset(151), counter = 151}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(251), setPokeOffset(151) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 251 ? 3 : 0}]}>
                         <Text>Gen. II</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(286), setPokeOffset(251), counter = 251}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(386), setPokeOffset(251) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 386 ? 3 : 0}]}>
                         <Text>Gen. III</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(493), setPokeOffset(286), counter = 286}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(494), setPokeOffset(386) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 494 ? 3 : 0}]}>
                         <Text>Gen. IV</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(649), setPokeOffset(493), counter = 493}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(649), setPokeOffset(494) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 649 ? 3 : 0}]}>
                         <Text>Gen. V</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(721), setPokeOffset(649), counter = 649}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(721), setPokeOffset(649) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 721 ? 3 : 0}]}>
                         <Text>Gen. VI</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(809), setPokeOffset(721), counter = 721}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(809), setPokeOffset(721) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 809 ? 3 : 0}]}>
                         <Text>Gen. VII</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(905), setPokeOffset(809), counter = 809}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(905), setPokeOffset(809) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 905 ? 3 : 0}]}>
                         <Text>Gen. VIII</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => {setPokeCount(1008), setPokeOffset(905), counter = 905}} style={styles.genButton}>
+                    <TouchableOpacity onPress={() => { setPokeCount(1008), setPokeOffset(905) }}
+                        style={[styles.genButton, {borderWidth: pokeCount === 1008 ? 3 : 0}]}>
                         <Text>Gen. IX</Text>
                     </TouchableOpacity>
                 </View>
@@ -91,12 +102,13 @@ const styles = StyleSheet.create({
     },
     genButton: {
         backgroundColor: 'skyblue',
-        height: Scaling.windowHeight * .05,
+        height: Scaling.windowHeight * .04,
         width: Scaling.windowWidth * .3,
         alignItems: 'center',
         justifyContent: 'center',
         margin: '1%',
-        borderRadius: 10
+        borderRadius: 10,
+        borderColor: 'blue'
     },
     pokeCard: {
         width: '45%',
