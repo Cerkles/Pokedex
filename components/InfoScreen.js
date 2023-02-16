@@ -11,7 +11,7 @@ import Evolution from './Evolution'
 import Other from './Other'
 
 
-export default function InfoScreen({ route }) {
+export default function InfoScreen({ route, navigation }) {
     const [species, setSpecies] = useState("")
     const [sprite, setSprite] = useState("")
     const [dexEntry, setDexEntry] = useState("")
@@ -56,6 +56,11 @@ export default function InfoScreen({ route }) {
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
 
             <View style={styles.topContainer}>
+
+                <TouchableOpacity style={styles.backButton} onPress={() => navigation.navigate("List")}>
+                    <Text>Back</Text>
+                </TouchableOpacity>
+
                 <Image
                     style={styles.sprite}
                     resizeMode='stretch'
@@ -126,6 +131,16 @@ const styles = StyleSheet.create({
         position: "absolute",
         top: Scaling.windowHeight * 0.11,
         right: Scaling.windowWidth * 0.08
+    },
+    backButton: {
+        position: 'absolute',
+        top: Scaling.windowHeight * .07,
+        left: 0,
+        backgroundColor: 'skyblue',
+        height: Scaling.windowHeight * .04,
+        width: Scaling.windowWidth * .15,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     //////////////////////////////////////////////////////////////////////////
 
