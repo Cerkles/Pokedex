@@ -31,6 +31,6 @@ export const requestAbility = (ability) => {
     return response
 }
 
-export const requestPokeList = () => {
-    return axios.get("https://pokeapi.co/api/v2/pokemon?limit=151&offset=0")
+export const requestPokeList = (counter, offset) => {
+    return axios.get(`https://pokeapi.co/api/v2/pokemon?limit=${counter}&offset=${offset}`)
 }
