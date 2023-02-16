@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import { ScrollView, View, Text, StyleSheet, Image, TouchableOpacity, TextInput } from "react-native";
 import { requestPokeList } from "../Requests";
 import Scaling from "../Scaling";
 
@@ -7,6 +7,7 @@ export default function ListScreen({ navigation }) {
     const [pokeList, setPokeList] = useState([])
     const [pokeCount, setPokeCount] = useState(151)
     const [pokeOffset, setPokeOffset] = useState(0)
+    const [search, setSearch] = useState("")
     let counter = pokeOffset
 
     useEffect(() => {
@@ -24,6 +25,19 @@ export default function ListScreen({ navigation }) {
     return (
         <ScrollView style={styles.container}>
             <View style={styles.listContainer}>
+            <View style={styles.searchBar}>
+                    <TextInput
+                        autoCorrect={false}
+                        autoCapitalize='none'
+                        style={styles.search}
+                        value={search}
+                        onChangeText={setSearch}
+                    ></TextInput>
+                    <TouchableOpacity style={styles.searchButton} onPress={() => navigation.navigate("Info", { id: search })}>
+                        <View style={{ height: '50%', width: '100%', backgroundColor: 'red', borderBottomWidth: 1, borderTopRightRadius: 2 }} />
+                        <View style={{ height: '15%', width: '15%', borderRadius: 50, backgroundColor: 'black', position: 'absolute', top: '42%', left: '42%' }} />
+                    </TouchableOpacity>
+                </View>
 
                 <View style={styles.genContainer}>
                     <TouchableOpacity onPress={() => { setPokeCount(151), setPokeOffset(0) }}
@@ -120,5 +134,29 @@ const styles = StyleSheet.create({
     sprite: {
         width: '70%',
         height: '70%'
-    }
+    },
+    searchBar: {
+        flexDirection: 'row',
+        margin: '3%',
+        marginTop: Scaling.windowHeight * .01,
+        height: Scaling.windowWidth * .05
+    },
+    search: {
+        height: '150%',
+        width: Scaling.windowWidth * .6,
+        borderWidth: 1,
+        borderRightWidth: 0,
+        borderTopLeftRadius: 3,
+        borderBottomLeftRadius: 3,
+        paddingLeft: 5,
+        backgroundColor: 'white'
+    },
+    searchButton: {
+        height: '151%',
+        width: Scaling.windowWidth * .08,
+        borderWidth: 1,
+        borderTopRightRadius: 3,
+        borderBottomRightRadius: 3,
+        backgroundColor: "white",
+    },
 })
