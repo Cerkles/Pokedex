@@ -42,7 +42,6 @@ export default function About({ dexEntry, pokeName }) {
         ))
     }, [ability3])
 
-    console.log(pokeHeight)
     function getFlavorText() {
         for (let entry of dexEntry) {
             if (entry.language.name === 'en') {

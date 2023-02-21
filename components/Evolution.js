@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image } from 'react-native'
 import { requestEvolution, requestPokemon } from '../Requests';
 import Scaling from '../Scaling';
 
-export default function Evolution({evoChain, search}) {
+export default function Evolution({evoChain}) {
     const [evolution, setEvolution] = useState([])
     const [evolution1, setEvolution1] = useState([])
     const [evolution2, setEvolution2] = useState([])
