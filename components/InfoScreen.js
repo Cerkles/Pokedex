@@ -56,10 +56,12 @@ export default function InfoScreen({ route, navigation }) {
     function getDifferentFormsRight() {
         setCounter(counter+=1)
         if (counter <= varieties.length-1) {
+            setPokeName(varieties[counter].pokemon.name)
             return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
         else if(counter === varieties.length){
             setCounter(0)
+            setPokeName(varieties[0].pokemon.name)
             return (varieties[0].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
     }
@@ -67,14 +69,16 @@ export default function InfoScreen({ route, navigation }) {
     function getDifferentFormsLeft() {
         setCounter(counter-=1)
         if (counter >= 0) {
+            setPokeName(varieties[counter].pokemon.name)
             return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
         else if(counter < 0){
             setCounter(varieties.length-1)
+            setPokeName(varieties[varieties.length-1].pokemon.name)
             return (varieties[varieties.length-1].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
     }
-console.log(counter)
+
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
 
@@ -90,12 +94,12 @@ console.log(counter)
                     source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png` }} />
 
                 {varieties.length > 1 &&
-                    <View style={{ flexDirection: 'row' }}>
+                    <View style={{ flexDirection: 'row', }}>
                         <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsLeft())}>
-                            <Text>←</Text>
+                            <Text>← </Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsRight())}>
-                            <Text>→</Text>
+                            <Text> →</Text>
                         </TouchableOpacity>
                     </View>}
 
