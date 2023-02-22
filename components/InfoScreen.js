@@ -13,7 +13,6 @@ import Other from './Other'
 
 export default function InfoScreen({ route, navigation }) {
     const [species, setSpecies] = useState("")
-    const [sprite, setSprite] = useState("")
     const [dexEntry, setDexEntry] = useState("")
     const [pokeName, setPokeName] = useState("")
     const [type, setType] = useState([])
@@ -23,12 +22,13 @@ export default function InfoScreen({ route, navigation }) {
     const [tabState, setTabState] = useState('about')
     const [evoChain, setEvoChain] = useState([])
     const [pokemonId, setPokemonId] = useState("")
+    const [varieties, setVarieties] = useState([])
+    let [counter, setCounter] = useState(0)
 
 
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
             setSpecies(response.data.species.url),
-            setSprite(response.data.sprites.other['official-artwork'].front_default),
             setPokeName(response.data.forms[0].name),
             setType(response.data.types),
             setStats(response.data.stats),
@@ -40,7 +40,8 @@ export default function InfoScreen({ route, navigation }) {
         requestSpecies(species).then((response) =>
         (response &&
             setDexEntry(response.data.flavor_text_entries),
-            setEvoChain(response.data.evolution_chain.url)))
+            setEvoChain(response.data.evolution_chain.url),
+            setVarieties(response.data.varieties)))
     }, [species])
 
     useEffect(() => {
@@ -50,6 +51,32 @@ export default function InfoScreen({ route, navigation }) {
 
     function capitalizeFirstLetter(string) {
         return string.charAt(0).toUpperCase() + string.slice(1)
+    }
+
+    function getDifferentFormsRight() {
+        setCounter(counter+=1)
+        if (counter <= varieties.length-1) {
+            setPokeName(varieties[counter].pokemon.name)
+            return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
+        else if(counter === varieties.length){
+            setCounter(0)
+            setPokeName(varieties[0].pokemon.name)
+            return (varieties[0].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
+    }
+
+    function getDifferentFormsLeft() {
+        setCounter(counter-=1)
+        if (counter >= 0) {
+            setPokeName(varieties[counter].pokemon.name)
+            return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
+        else if(counter < 0){
+            setCounter(varieties.length-1)
+            setPokeName(varieties[varieties.length-1].pokemon.name)
+            return (varieties[varieties.length-1].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
     }
 
     return (
@@ -64,7 +91,17 @@ export default function InfoScreen({ route, navigation }) {
                 <Image
                     style={styles.sprite}
                     resizeMode='stretch'
-                    source={{ uri: sprite }} />
+                    source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png` }} />
+
+                {varieties.length > 1 &&
+                    <View style={{ flexDirection: 'row', }}>
+                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsLeft())}>
+                            <Text>← </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsRight())}>
+                            <Text> →</Text>
+                        </TouchableOpacity>
+                    </View>}
 
                 <View style={styles.pokemonId}>
                     {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
