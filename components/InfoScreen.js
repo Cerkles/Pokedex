@@ -23,7 +23,7 @@ export default function InfoScreen({ route, navigation }) {
     const [evoChain, setEvoChain] = useState([])
     const [pokemonId, setPokemonId] = useState("")
     const [varieties, setVarieties] = useState([])
-    let counter = 0
+    let [counter, setCounter] = useState(0)
 
 
     useEffect(() => {
@@ -53,20 +53,28 @@ export default function InfoScreen({ route, navigation }) {
         return string.charAt(0).toUpperCase() + string.slice(1)
     }
 
-    function getDifferentFormsRight(){
-        let formId
-        if(counter !== varieties.length){
-            formId = varieties[counter].pokemon.url
-            formId = formId.replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
-            console.log(formId)
-            counter++
-            return formId
+    function getDifferentFormsRight() {
+        setCounter(counter+=1)
+        if (counter <= varieties.length-1) {
+            return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
-        else {
-            counter = 0
+        else if(counter === varieties.length){
+            setCounter(0)
+            return (varieties[0].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
     }
 
+    function getDifferentFormsLeft() {
+        setCounter(counter-=1)
+        if (counter >= 0) {
+            return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
+        else if(counter < 0){
+            setCounter(varieties.length-1)
+            return (varieties[varieties.length-1].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        }
+    }
+console.log(counter)
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
 
@@ -81,15 +89,15 @@ export default function InfoScreen({ route, navigation }) {
                     resizeMode='stretch'
                     source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png` }} />
 
-                {varieties.length > 1 && 
-                <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity>
-                        <Text>←</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsRight())}>
-                        <Text>→</Text>
-                    </TouchableOpacity>
-                </View>}
+                {varieties.length > 1 &&
+                    <View style={{ flexDirection: 'row' }}>
+                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsLeft())}>
+                            <Text>←</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsRight())}>
+                            <Text>→</Text>
+                        </TouchableOpacity>
+                    </View>}
 
                 <View style={styles.pokemonId}>
                     {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
