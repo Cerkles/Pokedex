@@ -35,6 +35,13 @@ export default function InfoScreen({ route, navigation }) {
             setPokemonId(response.data.id)))
     }, [])
 
+    useEffect(() => {
+        requestPokemon(pokemonId).then((response) => (response &&
+            setSpecies(response.data.species.url),
+            setType(response.data.types),
+            setStats(response.data.stats)))
+    }, [pokemonId])
+
 
     useEffect(() => {
         requestSpecies(species).then((response) =>
@@ -93,15 +100,19 @@ export default function InfoScreen({ route, navigation }) {
                     resizeMode='stretch'
                     source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png` }} />
 
+                    <View style={{marginBottom: '-10%'}}>
                 {varieties.length > 1 &&
-                    <View style={{ flexDirection: 'row', }}>
-                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsLeft())}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '80%'}}>
+                        <TouchableOpacity style={styles.formButtons}
+                        onPress={() => setPokemonId(getDifferentFormsLeft())}>
                             <Text>← </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity onPress={() => setPokemonId(getDifferentFormsRight())}>
+                        <TouchableOpacity style={styles.formButtons}
+                        onPress={() => setPokemonId(getDifferentFormsRight())}>
                             <Text> →</Text>
                         </TouchableOpacity>
                     </View>}
+                    </View>
 
                 <View style={styles.pokemonId}>
                     {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
@@ -176,6 +187,14 @@ const styles = StyleSheet.create({
         backgroundColor: 'skyblue',
         height: Scaling.windowHeight * .04,
         width: Scaling.windowWidth * .15,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    formButtons: {
+        width: '20%',
+        height: Scaling.windowHeight * .03,
+        backgroundColor: 'skyblue',
+        borderRadius: 10,
         justifyContent: 'center',
         alignItems: 'center'
     },
