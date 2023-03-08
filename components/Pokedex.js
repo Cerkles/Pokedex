@@ -39,7 +39,6 @@ export default function Pokedex({navigation}) {
 
     return (
         <View style={styles.container}>
-
             <View style={styles.topDex}>
                 <View style={styles.blueLightContainer}>
                     <View style={styles.blueLightBorder}>
@@ -86,7 +85,13 @@ export default function Pokedex({navigation}) {
                 <Pressable onPress={() => navigation.navigate("List")} style={styles.thinRed} />
                 <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
                 <Pressable onPress={() => navigation.navigate("Info", {id: counter})} style={styles.blackButton} />
-                <View style={styles.greenScreen}><Text style={{fontSize: '20%'}}>{capitalizeFirstLetter(pokeName)}</Text></View>
+                <View style={styles.greenScreen}>
+                    <View style={styles.greenInfo}>
+                        <Text style={styles.greenText}>{capitalizeFirstLetter(pokeName)}</Text>
+                        <Text style={styles.greenJapanese}>{pokeName}</Text>
+                        <Text style={styles.greenUnown}>{pokeName}</Text>
+                    </View>
+                </View>
             </View>
 
         </View>
@@ -343,12 +348,26 @@ const styles = StyleSheet.create({
         top: Scaling.windowHeight * .15,
         left: Scaling.windowWidth * .23,
         backgroundColor: 'lime',
-        width: Scaling.windowWidth * .3,
+        width: Scaling.windowWidth * .37,
         height: Scaling.windowHeight * .1,
         borderWidth: 1,
         borderRadius: 5,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    greenInfo: {
+        textAlign: 'center',
+        justifyContent: 'center'
+    },
+    greenText: {
+        fontFamily: 'GBfont',
+    },
+    greenJapanese: {
+        margin: 5,
+        fontFamily: 'GBjapanKT'
+    },
+    greenUnown: {
+        fontFamily: 'GBUnown'
     },
     thinBlue: {
         position: 'absolute',
