@@ -22,6 +22,7 @@ export default function InfoScreen({ route, navigation }) {
     const [tabState, setTabState] = useState('about')
     const [evoChain, setEvoChain] = useState([])
     const [pokemonId, setPokemonId] = useState("")
+    const [pokemonOriginalId, setPokemonOriginalId] = useState("")
     const [varieties, setVarieties] = useState([])
     let [counter, setCounter] = useState(0)
 
@@ -86,6 +87,15 @@ export default function InfoScreen({ route, navigation }) {
         }
     }
 
+    useEffect(() => {
+        if (String(pokemonId).length === 2) {
+            setPokemonOriginalId(`#0${pokemonId}`)
+        } else if (String(pokemonId).length === 1) {
+            setPokemonOriginalId(`#00${pokemonId}`)
+        } else if (String(pokemonId).length === 3) {
+            setPokemonOriginalId(`#${pokemonId}`)}
+    }, [pokemonId])
+
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
 
@@ -115,8 +125,9 @@ export default function InfoScreen({ route, navigation }) {
                     </View>
 
                 <View style={styles.pokemonId}>
-                    {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
-                        String(pokemonId).length === 2 ? <Text>#0{pokemonId}</Text> :
+                    {String(pokemonId).length === 5 ? <Text>{pokemonOriginalId}</Text> :
+                    String(pokemonId).length === 1 ?   <Text>#00{pokemonId}</Text> :
+                        String(pokemonId).length === 2 ?  <Text>#0{pokemonId}</Text> :
                             <Text>#{pokemonId}</Text>}
                 </View>
             </View>

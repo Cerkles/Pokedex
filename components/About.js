@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     abilityName: {
         fontSize: '20%',
         margin: '3%',
-        marginBottom: '-1%',
+        marginBottom: 0
     },
     abilityText: {
         marginLeft: '3%',

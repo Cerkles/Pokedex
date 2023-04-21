@@ -129,13 +129,14 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 25,
         margin: '1%',
-        backgroundColor: '#efefef'
+        backgroundColor: '#efefef',
     },
     pokemonList: {
         width: "100%",
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "center",
+        marginBottom: 200
     },
     sprite: {
         width: '70%',

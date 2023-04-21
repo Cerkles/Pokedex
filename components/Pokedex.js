@@ -356,17 +356,20 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     greenInfo: {
-        textAlign: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     greenText: {
+        paddingTop: 1.5,
         fontFamily: 'GBfont',
     },
     greenJapanese: {
         margin: 5,
+        paddingTop: 1.5,
         fontFamily: 'GBjapanKT'
     },
     greenUnown: {
+        paddingTop: 1.5,
         fontFamily: 'GBUnown'
     },
     thinBlue: {
