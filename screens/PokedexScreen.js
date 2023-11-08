@@ -1,41 +1,37 @@
-import { View, StyleSheet, Text, Pressable, Image} from 'react-native'
 import { useState, useEffect } from 'react';
-import Scaling from '../Scaling';
-import { request151, requestPokemon } from '../Requests';
+import { View, StyleSheet, Text, Pressable, Image } from 'react-native'
+import { requestPokemon } from '../requests/Requests';
+import Scaling from '../utils/Scaling';
+import capitalizeFirstLetter from '../utils/Capitalize'
 
-export default function Pokedex({navigation}) {
+export default function Pokedex({ navigation }) {
     const [blueLight, setBlueLight] = useState('#90c9df')
     const [smallRed, setSmallRed] = useState('#db0000')
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
-    const [pokeContainer, setPokeContainer] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
+    const [pokeSprite, setPokeSprite] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
     const [pokeName, setPokeName] = useState('Bulbasaur')
-    let [counter, setCounter] = useState(1)
-    const [blueLightOn, setBlueLightOn] = useState(false)
-    const [lightsOn, setLightsOn] = useState(false)
-
+    const [counter, setCounter] = useState(1)
 
     useEffect(() => {
-        request151(counter).then((response) => response && setPokeContainer(response.data.sprites.front_default))
-        requestPokemon(counter).then((response) => response && setPokeName(response.data.species.name))
+        requestPokemon(counter).then((response) => response && 
+        (setPokeName(response.data.species.name), setPokeSprite(response.data.sprites.front_default)))
     }, [counter])
 
-    useEffect(() => {
-        blueLightOn ? (setBlueLight('blue')):(setBlueLight('#90c9df'))
-    }, [blueLightOn])
+    const handleBlueBtn = () => {
+        blueLight === "blue" ? (setBlueLight('#90c9df')) : (setBlueLight('blue'))
+        smallRed === "#db0000" ? (setSmallRed("red")) : (setSmallRed("#db0000"))
+        smallYellow === "#f0cc00" ? (setSmallYellow("yellow")) : (setSmallYellow("#f0cc00"))
+        smallGreen === "limegreen" ? (setSmallGreen("lime")) : (setSmallGreen("limegreen"))
+    }
 
     const handleUpClick = () => {
-        counter === 151 ? (setCounter(1)) : (setCounter(counter += 1))
+        counter === 151 ? (setCounter(1)) : (setCounter(counter + 1))
     }
 
     const handleDownClick = () => {
-        counter === 1 ? (setCounter(151)) : (setCounter(counter -= 1))
+        counter === 1 ? (setCounter(151)) : (setCounter(counter - 1))
     }
-
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-
 
     return (
         <View style={styles.container}>
@@ -48,9 +44,15 @@ export default function Pokedex({navigation}) {
                     </View>
                 </View>
                 <View style={styles.smallLightContainer}>
-                    <View style={[styles.smallLight, { backgroundColor: smallRed }]} />
-                    <View style={[styles.smallLight, { backgroundColor: smallYellow }]} />
-                    <View style={[styles.smallLight, { backgroundColor: smallGreen }]} />
+                    <View style={[styles.smallLight, { backgroundColor: smallRed }]} >
+                        <View style={styles.smallLightShine} />
+                    </View>
+                    <View style={[styles.smallLight, { backgroundColor: smallYellow }]} >
+                        <View style={styles.smallLightShine} />
+                    </View>
+                    <View style={[styles.smallLight, { backgroundColor: smallGreen }]} >
+                        <View style={styles.smallLightShine} />
+                    </View>
                 </View>
                 <View style={styles.topBorder}>
                     <View style={styles.topLeft} />
@@ -63,13 +65,13 @@ export default function Pokedex({navigation}) {
 
             <View style={styles.middleDex}>
                 <View style={styles.screenContainer}>
-                    <View style={styles.rightScreenLight}/>
-                    <View style={styles.leftScreenLight}/>
-                    <View style={styles.screen}>     
-                        <Image style={styles.sprite} source={{uri: pokeContainer}}/>
+                    <View style={styles.rightScreenLight} />
+                    <View style={styles.leftScreenLight} />
+                    <View style={styles.screen}>
+                        <Image style={styles.sprite} source={{ uri: pokeSprite }} />
                     </View>
-                    <View style={styles.topLines}/>
-                    <View style={styles.botLines}/>
+                    <View style={styles.topLines} />
+                    <View style={styles.botLines} />
                     <View style={styles.screenLight} />
                 </View>
             </View>
@@ -83,8 +85,8 @@ export default function Pokedex({navigation}) {
                     <View style={styles.middleDirection} />
                 </View>
                 <Pressable onPress={() => navigation.navigate("List")} style={styles.thinRed} />
-                <Pressable onPress={() => setBlueLightOn(!blueLightOn)} style={styles.thinBlue} />
-                <Pressable onPress={() => navigation.navigate("Info", {id: counter})} style={styles.blackButton} />
+                <Pressable onPress={() => handleBlueBtn()} style={styles.thinBlue} />
+                <Pressable style={styles.blackButton} />
                 <View style={styles.greenScreen}>
                     <View style={styles.greenInfo}>
                         <Text style={styles.greenText}>{capitalizeFirstLetter(pokeName)}</Text>
@@ -162,7 +164,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         width: Scaling.windowHeight * .03,
         height: Scaling.windowHeight * .03,
-    },   
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    smallLightShine: {
+        borderTopLeftRadius: 120,
+        borderBottomRightRadius: 120,
+        borderTopRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        backgroundColor: '#f5f5f5',
+        width: Scaling.windowHeight * .006,
+        height: Scaling.windowHeight * .006,
+        marginTop: -Scaling.windowHeight * .012,
+        marginLeft: -Scaling.windowHeight * .015,
+    },
     topBorder: {
         flexDirection: "row",
         position: "absolute",
@@ -191,9 +206,9 @@ const styles = StyleSheet.create({
         height: 50,
         width: 130,
     },
-    
+
     /////////////////////////////////////////////////////////////
-    
+
     screenContainer: {
         position: 'absolute',
         top: "5%",
@@ -322,7 +337,7 @@ const styles = StyleSheet.create({
         top: '33%',
         borderWidth: 3
     },
-    middleDirection:{
+    middleDirection: {
         width: '33%',
         height: '33%',
         backgroundColor: '#222',
@@ -365,11 +380,12 @@ const styles = StyleSheet.create({
     },
     greenJapanese: {
         margin: 5,
-        paddingTop: 1.5,
+        paddingTop: 10,
+        paddingBottom: 1,
         fontFamily: 'GBjapanKT'
     },
     greenUnown: {
-        paddingTop: 1.5,
+        paddingTop: 2,
         fontFamily: 'GBUnown'
     },
     thinBlue: {

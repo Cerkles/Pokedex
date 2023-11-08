@@ -1,11 +1,10 @@
-
 import { LogBox } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from "@react-navigation/native"
 import { useFonts } from 'expo-font';
-import InfoScreen from './components/InfoScreen'
-import Pokedex from './components/Pokedex'
-import ListScreen from './components/ListScreen';
+import PokedexScreen from './screens/PokedexScreen'
+import ListScreen from './screens/ListScreen';
+import InfoScreen from './screens/InfoScreen'
 
 const Stack = createNativeStackNavigator()
 LogBox.ignoreAllLogs()
@@ -17,7 +16,7 @@ export default function App() {
     GBUnown: require('./assets/fonts/PokemonUnownGb-YAWa.ttf')
   })
 
-  if(!loaded) {
+  if (!loaded) {
     return null;
   }
 
@@ -25,7 +24,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Home"
-          component={Pokedex} />
+          component={PokedexScreen} />
         <Stack.Screen name="List"
           component={ListScreen} />
         <Stack.Screen name="Info"
