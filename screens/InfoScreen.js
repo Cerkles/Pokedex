@@ -1,15 +1,14 @@
-import { View, StyleSheet, Text, TextInput, Button, Image, TouchableOpacity } from 'react-native'
 import { useState, useEffect } from 'react'
-import { requestPokemon } from '../Requests'
-import { requestSpecies } from '../Requests'
-import Scaling from '../Scaling'
-import Types from './Types'
-import typeColor from '../TypeColors'
-import About from './About'
-import Stats from './Stats'
-import Evolution from './Evolution'
-import Other from './Other'
-
+import { View, StyleSheet, Text, Image, TouchableOpacity } from 'react-native'
+import { requestPokemon, requestSpecies } from '../requests/Requests'
+import Scaling from '../utils/Scaling'
+import typeColor from '../utils/TypeColors'
+import capitalizeFirstLetter from '../utils/Capitalize'
+import Types from '../components/Types'
+import About from '../components/About'
+import Stats from '../components/Stats'
+import Evolution from '../components/Evolution'
+import Other from '../components/Other'
 
 export default function InfoScreen({ route, navigation }) {
     const [species, setSpecies] = useState("")
@@ -22,9 +21,9 @@ export default function InfoScreen({ route, navigation }) {
     const [tabState, setTabState] = useState('about')
     const [evoChain, setEvoChain] = useState([])
     const [pokemonId, setPokemonId] = useState("")
+    const [pokemonOriginalId, setPokemonOriginalId] = useState("")
     const [varieties, setVarieties] = useState([])
     let [counter, setCounter] = useState(0)
-
 
     useEffect(() => {
         requestPokemon(route.params.id).then((response) => (response &&
@@ -42,7 +41,6 @@ export default function InfoScreen({ route, navigation }) {
             setStats(response.data.stats)))
     }, [pokemonId])
 
-
     useEffect(() => {
         requestSpecies(species).then((response) =>
         (response &&
@@ -56,17 +54,13 @@ export default function InfoScreen({ route, navigation }) {
         type[1] ? setType2(type[1].type.name) : (setType2(''))
     }, [type])
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-
     function getDifferentFormsRight() {
-        setCounter(counter+=1)
-        if (counter <= varieties.length-1) {
+        setCounter(counter += 1)
+        if (counter <= varieties.length - 1) {
             setPokeName(varieties[counter].pokemon.name)
             return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
-        else if(counter === varieties.length){
+        else if (counter === varieties.length) {
             setCounter(0)
             setPokeName(varieties[0].pokemon.name)
             return (varieties[0].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
@@ -74,17 +68,27 @@ export default function InfoScreen({ route, navigation }) {
     }
 
     function getDifferentFormsLeft() {
-        setCounter(counter-=1)
+        setCounter(counter -= 1)
         if (counter >= 0) {
             setPokeName(varieties[counter].pokemon.name)
             return (varieties[counter].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
-        else if(counter < 0){
-            setCounter(varieties.length-1)
-            setPokeName(varieties[varieties.length-1].pokemon.name)
-            return (varieties[varieties.length-1].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
+        else if (counter < 0) {
+            setCounter(varieties.length - 1)
+            setPokeName(varieties[varieties.length - 1].pokemon.name)
+            return (varieties[varieties.length - 1].pokemon.url).replace('https://pokeapi.co/api/v2/pokemon/', '').replace('/', '')
         }
     }
+
+    useEffect(() => {
+        if (String(pokemonId).length === 2) {
+            setPokemonOriginalId(`#0${pokemonId}`)
+        } else if (String(pokemonId).length === 1) {
+            setPokemonOriginalId(`#00${pokemonId}`)
+        } else if (String(pokemonId).length === 3) {
+            setPokemonOriginalId(`#${pokemonId}`)
+        }
+    }, [pokemonId])
 
     return (
         <View style={[styles.container, { backgroundColor: typeColor(type1) }]}>
@@ -100,24 +104,25 @@ export default function InfoScreen({ route, navigation }) {
                     resizeMode='stretch'
                     source={{ uri: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemonId}.png` }} />
 
-                    <View style={{marginBottom: '-10%'}}>
-                {varieties.length > 1 &&
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '80%'}}>
-                        <TouchableOpacity style={styles.formButtons}
-                        onPress={() => setPokemonId(getDifferentFormsLeft())}>
-                            <Text>← </Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.formButtons}
-                        onPress={() => setPokemonId(getDifferentFormsRight())}>
-                            <Text> →</Text>
-                        </TouchableOpacity>
-                    </View>}
-                    </View>
+                <View style={{ marginBottom: '-10%' }}>
+                    {varieties.length > 1 &&
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '80%' }}>
+                            <TouchableOpacity style={styles.formButtons}
+                                onPress={() => setPokemonId(getDifferentFormsLeft())}>
+                                <Text>← </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.formButtons}
+                                onPress={() => setPokemonId(getDifferentFormsRight())}>
+                                <Text> →</Text>
+                            </TouchableOpacity>
+                        </View>}
+                </View>
 
                 <View style={styles.pokemonId}>
-                    {String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
-                        String(pokemonId).length === 2 ? <Text>#0{pokemonId}</Text> :
-                            <Text>#{pokemonId}</Text>}
+                    {String(pokemonId).length === 5 ? <Text>{pokemonOriginalId}</Text> :
+                        String(pokemonId).length === 1 ? <Text>#00{pokemonId}</Text> :
+                            String(pokemonId).length === 2 ? <Text>#0{pokemonId}</Text> :
+                                <Text>#{pokemonId}</Text>}
                 </View>
             </View>
 

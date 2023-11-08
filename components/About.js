@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, StyleSheet } from 'react-native'
-import { requestPokemon, requestAbility } from '../Requests';
+import { requestPokemon, requestAbility } from '../requests/Requests';
+import capitalizeFirstLetter from '../utils/Capitalize'
 
 
 export default function About({ dexEntry, pokeName }) {
@@ -58,10 +59,6 @@ export default function About({ dexEntry, pokeName }) {
         }
     }
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-
     function weights(pokeweight) {
         const kgs = String(pokeweight * 0.1)
         const pounds = String((pokeweight * 0.1) * 2.2046)
@@ -117,7 +114,7 @@ const styles = StyleSheet.create({
     abilityName: {
         fontSize: '20%',
         margin: '3%',
-        marginBottom: '-1%',
+        marginBottom: 0
     },
     abilityText: {
         marginLeft: '3%',
