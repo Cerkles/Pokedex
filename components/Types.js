@@ -1,33 +1,29 @@
 import { View, StyleSheet, Text } from 'react-native'
-import typeColor from '../TypeColors'
-
+import typeColor from '../utils/TypeColors'
+import capitalizeFirstLetter from '../utils/Capitalize'
 
 export default function Types({ type1, type2 }) {
 
-    function capitalizeFirstLetter(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1)
-    }
-
     return (
         <View style={styles.container}>
-        <View style={styles.typeContainer}>
-            <View style={[styles.types, { backgroundColor: typeColor(type1) }]}>
-                <Text>{capitalizeFirstLetter(type1)}</Text>
-            </View>
-            
-            {type2.length !== 0 &&
-            <View style={[styles.types, { backgroundColor: typeColor(type2) }]}>
-                <Text>{capitalizeFirstLetter(type2)}</Text>
-            </View>}
+            <View style={styles.typeContainer}>
+                <View style={[styles.types, { backgroundColor: typeColor(type1) }]}>
+                    <Text>{capitalizeFirstLetter(type1)}</Text>
+                </View>
 
-        </View>
+                {type2.length !== 0 &&
+                    <View style={[styles.types, { backgroundColor: typeColor(type2) }]}>
+                        <Text>{capitalizeFirstLetter(type2)}</Text>
+                    </View>}
+
+            </View>
         </View>
     )
 
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         alignItems: 'center',
         height: '8%',
     },
