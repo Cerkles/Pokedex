@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Pressable, Image } from 'react-native'
 import { requestPokemon } from '../requests/Requests';
 import Scaling from '../utils/Scaling';
 import capitalizeFirstLetter from '../utils/Capitalize'
+import handleDirectionalPad from '../utils/Dpad';
 
 export default function Pokedex({ navigation }) {
     const [blueLight, setBlueLight] = useState('#90c9df')
@@ -10,13 +11,17 @@ export default function Pokedex({ navigation }) {
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
     const [pokeSprite, setPokeSprite] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
+    const [spriteVersions, setSpriteVersions] = useState({})
     const [pokeName, setPokeName] = useState('Bulbasaur')
     const [counter, setCounter] = useState(1)
+    const [versionIndex, setVersionIndex] = useState(0)
 
     useEffect(() => {
-        requestPokemon(counter).then((response) => response && 
-        (setPokeName(response.data.species.name), setPokeSprite(response.data.sprites.front_default)))
-    }, [counter])
+        requestPokemon(counter).then((response) => response &&
+            (setSpriteVersions(response.data.sprites.versions), 
+            setPokeName(response.data.species.name), 
+            setPokeSprite(response.data.sprites.front_default))
+    )}, [counter])
 
     const handleBlueBtn = () => {
         blueLight === "blue" ? (setBlueLight('#90c9df')) : (setBlueLight('blue'))
@@ -25,16 +30,13 @@ export default function Pokedex({ navigation }) {
         smallGreen === "limegreen" ? (setSmallGreen("lime")) : (setSmallGreen("limegreen"))
     }
 
-    const handleUpClick = () => {
-        counter === 151 ? (setCounter(1)) : (setCounter(counter + 1))
-    }
-
-    const handleDownClick = () => {
-        counter === 1 ? (setCounter(151)) : (setCounter(counter - 1))
+    const handleDirectionPress = (direction) => {
+        handleDirectionalPad(direction, counter, setCounter, versionIndex, setVersionIndex, spriteVersions, setPokeSprite)
     }
 
     return (
         <View style={styles.container}>
+
             <View style={styles.topDex}>
                 <View style={styles.blueLightContainer}>
                     <View style={styles.blueLightBorder}>
@@ -65,23 +67,29 @@ export default function Pokedex({ navigation }) {
 
             <View style={styles.middleDex}>
                 <View style={styles.screenContainer}>
-                    <View style={styles.rightScreenLight} />
-                    <View style={styles.leftScreenLight} />
+                    <View style={styles.rightScreenLight} >
+                        <View style={styles.midLightShine} />
+                    </View>
+                    <View style={styles.leftScreenLight} >
+                        <View style={styles.midLightShine} />
+                    </View>
                     <View style={styles.screen}>
                         <Image style={styles.sprite} source={{ uri: pokeSprite }} />
                     </View>
                     <View style={styles.topLines} />
                     <View style={styles.botLines} />
-                    <View style={styles.screenLight} />
+                    <View style={styles.screenLight} >
+                        <View style={styles.smallLightShine} />
+                    </View>
                 </View>
             </View>
 
             <View style={styles.botDex}>
                 <View style={styles.directionalPad}>
-                    <Pressable onPress={() => handleUpClick()} style={styles.upDirection} />
-                    <Pressable onPress={() => handleDownClick()} style={styles.downDirection} />
-                    <View style={styles.leftDirection} />
-                    <View style={styles.rightDirection} />
+                    <Pressable onPress={() => handleDirectionPress("up")} style={styles.upDirection} />
+                    <Pressable onPress={() => handleDirectionPress("down")} style={styles.downDirection} />
+                    <Pressable onPress={() => handleDirectionPress("left")} style={styles.leftDirection} />
+                    <Pressable onPress={() => handleDirectionPress("right")} style={styles.rightDirection} />
                     <View style={styles.middleDirection} />
                 </View>
                 <Pressable onPress={() => navigation.navigate("List")} style={styles.thinRed} />
@@ -118,6 +126,11 @@ const styles = StyleSheet.create({
 
     /////////////////////////////////////////////////////////////
 
+    blueLightContainer: {
+        position: 'absolute',
+        top: Scaling.windowHeight * .05,
+        left: Scaling.windowHeight * .03
+    },
     blueLightBorder: {
         borderRadius: 50,
         borderWidth: 1,
@@ -145,11 +158,6 @@ const styles = StyleSheet.create({
         height: Scaling.windowHeight * .02,
         marginTop: -Scaling.windowHeight * .04,
         marginLeft: -Scaling.windowHeight * .04,
-    },
-    blueLightContainer: {
-        position: 'absolute',
-        top: Scaling.windowHeight * .05,
-        left: Scaling.windowHeight * .03
     },
     smallLightContainer: {
         width: Scaling.windowWidth * .3,
@@ -240,16 +248,6 @@ const styles = StyleSheet.create({
         width: '100%',
         resizeMode: 'contain',
     },
-    rightScreenLight: {
-        position: 'absolute',
-        top: '6%',
-        right: '35%',
-        backgroundColor: 'red',
-        width: Scaling.windowHeight * .018,
-        height: Scaling.windowHeight * .018,
-        borderRadius: 50,
-        borderWidth: 1
-    },
     leftScreenLight: {
         position: 'absolute',
         top: '6%',
@@ -258,7 +256,45 @@ const styles = StyleSheet.create({
         width: Scaling.windowHeight * .018,
         height: Scaling.windowHeight * .018,
         borderRadius: 50,
-        borderWidth: 1
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    rightScreenLight: {
+        position: 'absolute',
+        top: '6%',
+        right: '35%',
+        backgroundColor: 'red',
+        width: Scaling.windowHeight * .018,
+        height: Scaling.windowHeight * .018,
+        borderRadius: 50,
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    midLightShine: {
+        borderTopLeftRadius: 120,
+        borderBottomRightRadius: 120,
+        borderTopRightRadius: 30,
+        borderBottomLeftRadius: 30,
+        backgroundColor: '#f5f5f5',
+        zIndex: 5,
+        width: Scaling.windowHeight * .004,
+        height: Scaling.windowHeight * .004,
+        marginTop: -Scaling.windowHeight * .007,
+        marginLeft: -Scaling.windowHeight * .009,
+    },
+    screenLight: {
+        position: 'absolute',
+        top: '88%',
+        left: '15%',
+        width: Scaling.windowHeight * .03,
+        height: Scaling.windowHeight * .03,
+        borderRadius: 50,
+        backgroundColor: 'red',
+        borderWidth: 1,
+        alignItems: "center",
+        justifyContent: "center"
     },
     topLines: {
         position: 'absolute',
@@ -278,17 +314,6 @@ const styles = StyleSheet.create({
         width: '10%',
         height: '4%',
     },
-    screenLight: {
-        position: 'absolute',
-        top: '88%',
-        left: '15%',
-        width: Scaling.windowHeight * .03,
-        height: Scaling.windowHeight * .03,
-        borderRadius: 50,
-        backgroundColor: 'red',
-        borderWidth: 1,
-    },
-
 
     /////////////////////////////////////////////////////////////
 
@@ -375,7 +400,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     greenText: {
-        paddingTop: 1.5,
+        paddingTop: 5,
         fontFamily: 'GBfont',
     },
     greenJapanese: {
@@ -411,6 +436,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderBottomWidth: 2,
         borderRightWidth: 2,
-
     },
 })
