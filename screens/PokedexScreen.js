@@ -3,6 +3,7 @@ import { View, StyleSheet, Text, Pressable, Image } from 'react-native'
 import { requestPokemon } from '../requests/Requests';
 import Scaling from '../utils/Scaling';
 import capitalizeFirstLetter from '../utils/Capitalize'
+import getSpriteArray from '../utils/Sprites';
 import handleDirectionalPad from '../utils/Dpad';
 
 export default function Pokedex({ navigation }) {
@@ -11,17 +12,25 @@ export default function Pokedex({ navigation }) {
     const [smallYellow, setSmallYellow] = useState('#f0cc00')
     const [smallGreen, setSmallGreen] = useState('limegreen')
     const [pokeSprite, setPokeSprite] = useState("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
-    const [spriteVersions, setSpriteVersions] = useState({})
+    const [spriteVersions, setSpriteVersions] = useState(null)
     const [pokeName, setPokeName] = useState('Bulbasaur')
     const [counter, setCounter] = useState(1)
     const [versionIndex, setVersionIndex] = useState(0)
 
     useEffect(() => {
         requestPokemon(counter).then((response) => response &&
-            (setSpriteVersions(response.data.sprites.versions), 
-            setPokeName(response.data.species.name), 
-            setPokeSprite(response.data.sprites.front_default))
-    )}, [counter])
+            (setSpriteVersions(response.data.sprites.versions),
+                setPokeName(response.data.species.name),
+                setPokeSprite(response.data.sprites.front_default))
+        )
+    }, [counter])
+
+    useEffect(() => {
+        if (spriteVersions) {
+            const sprites = getSpriteArray(spriteVersions)
+            setPokeSprite(sprites[versionIndex])
+        }
+    }, [versionIndex])
 
     const handleBlueBtn = () => {
         blueLight === "blue" ? (setBlueLight('#90c9df')) : (setBlueLight('blue'))
@@ -31,7 +40,7 @@ export default function Pokedex({ navigation }) {
     }
 
     const handleDirectionPress = (direction) => {
-        handleDirectionalPad(direction, counter, setCounter, versionIndex, setVersionIndex, spriteVersions, setPokeSprite)
+        handleDirectionalPad(direction, counter, setCounter, versionIndex, setVersionIndex)
     }
 
     return (
